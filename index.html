@@ -77,4 +77,249 @@
                 <div class="pillar-tag pillar-finance">💰 Finance</div>
                 <h2>Connaissez-vous votre point mort (seuil de rentabilité) précis ?</h2>
                 <div class="options">
-                    <div class="option" data-value="3" data-
+                    <div class="option" data-value="3" data-pillar="finance" onclick="selectOption(this)">
+                        <div class="option-dot"></div><span>Oui, je le suis chaque mois</span>
+                    </div>
+                    <div class="option" data-value="2" data-pillar="finance" onclick="selectOption(this)">
+                        <div class="option-dot"></div><span>Approximativement</span>
+                    </div>
+                    <div class="option" data-value="1" data-pillar="finance" onclick="selectOption(this)">
+                        <div class="option-dot"></div><span>Pas vraiment</span>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn btn-next" id="nextBtn1" disabled onclick="nextQuestion(1)">Question suivante →</button>
+                </div>
+            </div>
+
+            <div class="question-card" data-question="2">
+                <div class="pillar-tag pillar-finance">💰 Finance</div>
+                <h2>Disposez-vous d'un prévisionnel de trésorerie à 6 mois ?</h2>
+                <div class="options">
+                    <div class="option" data-value="3" data-pillar="finance" onclick="selectOption(this)"><div class="option-dot"></div><span>Oui, à jour</span></div>
+                    <div class="option" data-value="2" data-pillar="finance" onclick="selectOption(this)"><div class="option-dot"></div><span>J'ai une vision à court terme</span></div>
+                    <div class="option" data-value="1" data-pillar="finance" onclick="selectOption(this)"><div class="option-dot"></div><span>Non, je gère à vue</span></div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn btn-back" onclick="prevQuestion(2)">Retour</button>
+                    <button class="btn btn-next" id="nextBtn2" disabled onclick="nextQuestion(2)">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" data-question="3">
+                <div class="pillar-tag pillar-commercial">📈 Commercial</div>
+                <h2>Votre acquisition de clients est-elle régulière et prévisible ?</h2>
+                <div class="options">
+                    <div class="option" data-value="3" data-pillar="commercial" onclick="selectOption(this)"><div class="option-dot"></div><span>Oui, flux constant</span></div>
+                    <div class="option" data-value="2" data-pillar="commercial" onclick="selectOption(this)"><div class="option-dot"></div><span>C'est irrégulier (bouche-à-oreille)</span></div>
+                    <div class="option" data-value="1" data-pillar="commercial" onclick="selectOption(this)"><div class="option-dot"></div><span>C'est les montagnes russes</span></div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn btn-back" onclick="prevQuestion(3)">Retour</button>
+                    <button class="btn btn-next" id="nextBtn3" disabled onclick="nextQuestion(3)">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" data-question="4">
+                <div class="pillar-tag pillar-commercial">📈 Commercial</div>
+                <h2>Connaissez-vous votre taux de conversion (Prospect -> Client) ?</h2>
+                <div class="options">
+                    <div class="option" data-value="3" data-pillar="commercial" onclick="selectOption(this)"><div class="option-dot"></div><span>Oui, précisément</span></div>
+                    <div class="option" data-value="2" data-pillar="commercial" onclick="selectOption(this)"><div class="option-dot"></div><span>À peu près</span></div>
+                    <div class="option" data-value="1" data-pillar="commercial" onclick="selectOption(this)"><div class="option-dot"></div><span>Aucune idée</span></div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn btn-back" onclick="prevQuestion(4)">Retour</button>
+                    <button class="btn btn-next" id="nextBtn4" disabled onclick="nextQuestion(4)">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" data-question="5">
+                <div class="pillar-tag pillar-management">👥 Management</div>
+                <h2>Vos collaborateurs connaissent-ils leurs objectifs précis ?</h2>
+                <div class="options">
+                    <div class="option" data-value="3" data-pillar="management" onclick="selectOption(this)"><div class="option-dot"></div><span>Oui, définis et suivis</span></div>
+                    <div class="option" data-value="2" data-pillar="management" onclick="selectOption(this)"><div class="option-dot"></div><span>C'est flou pour certains</span></div>
+                    <div class="option" data-value="1" data-pillar="management" onclick="selectOption(this)"><div class="option-dot"></div><span>On avance au jour le jour</span></div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn btn-back" onclick="prevQuestion(5)">Retour</button>
+                    <button class="btn btn-next" id="nextBtn5" disabled onclick="nextQuestion(5)">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" data-question="6">
+                <div class="pillar-tag pillar-management">👥 Management</div>
+                <h2>Arrivez-vous à déléguer sans devoir tout repasser derrière ?</h2>
+                <div class="options">
+                    <div class="option" data-value="3" data-pillar="management" onclick="selectOption(this)"><div class="option-dot"></div><span>Oui, totalement</span></div>
+                    <div class="option" data-value="2" data-pillar="management" onclick="selectOption(this)"><div class="option-dot"></div><span>Difficilement</span></div>
+                    <div class="option" data-value="1" data-pillar="management" onclick="selectOption(this)"><div class="option-dot"></div><span>Je fais presque tout moi-même</span></div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn btn-back" onclick="prevQuestion(6)">Retour</button>
+                    <button class="btn btn-next" id="nextBtn6" disabled onclick="nextQuestion(6)">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" data-question="7">
+                <div class="pillar-tag pillar-orga">⚙️ Organisation</div>
+                <h2>Vos process clés (vente, production) sont-ils écrits ?</h2>
+                <div class="options">
+                    <div class="option" data-value="3" data-pillar="orga" onclick="selectOption(this)"><div class="option-dot"></div><span>Oui, tout est processé</span></div>
+                    <div class="option" data-value="2" data-pillar="orga" onclick="selectOption(this)"><div class="option-dot"></div><span>Une partie seulement</span></div>
+                    <div class="option" data-value="1" data-pillar="orga" onclick="selectOption(this)"><div class="option-dot"></div><span>Tout est dans ma tête</span></div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn btn-back" onclick="prevQuestion(7)">Retour</button>
+                    <button class="btn btn-next" id="nextBtn7" disabled onclick="nextQuestion(7)">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" data-question="8">
+                <div class="pillar-tag pillar-orga">⚙️ Organisation</div>
+                <h2>Subissez-vous souvent des urgences qui cassent votre planning ?</h2>
+                <div class="options">
+                    <div class="option" data-value="3" data-pillar="orga" onclick="selectOption(this)"><div class="option-dot"></div><span>Rarement</span></div>
+                    <div class="option" data-value="2" data-pillar="orga" onclick="selectOption(this)"><div class="option-dot"></div><span>Souvent</span></div>
+                    <div class="option" data-value="1" data-pillar="orga" onclick="selectOption(this)"><div class="option-dot"></div><span>C'est mon quotidien</span></div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn btn-back" onclick="prevQuestion(8)">Retour</button>
+                    <button class="btn btn-next" id="nextBtn8" disabled onclick="nextQuestion(8)">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" data-question="9">
+                <div class="pillar-tag pillar-strategie">🎯 Stratégie</div>
+                <h2>Avez-vous une vision claire de votre entreprise à 3 ans ?</h2>
+                <div class="options">
+                    <div class="option" data-value="3" data-pillar="strategie" onclick="selectOption(this)"><div class="option-dot"></div><span>Oui, avec un plan d'action</span></div>
+                    <div class="option" data-value="2" data-pillar="strategie" onclick="selectOption(this)"><div class="option-dot"></div><span>Une idée vague</span></div>
+                    <div class="option" data-value="1" data-pillar="strategie" onclick="selectOption(this)"><div class="option-dot"></div><span>Pas le temps d'y penser</span></div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn btn-back" onclick="prevQuestion(9)">Retour</button>
+                    <button class="btn btn-next" id="nextBtn9" disabled onclick="nextQuestion(9)">Suivant</button>
+                </div>
+            </div>
+
+            <div class="question-card" data-question="10">
+                <div class="pillar-tag pillar-strategie">🎯 Stratégie</div>
+                <h2>Prenez-vous du temps chaque semaine pour sortir de l'opérationnel ?</h2>
+                <div class="options">
+                    <div class="option" data-value="3" data-pillar="strategie" onclick="selectOption(this)"><div class="option-dot"></div><span>Oui, c'est sacré</span></div>
+                    <div class="option" data-value="2" data-pillar="strategie" onclick="selectOption(this)"><div class="option-dot"></div><span>J'essaie, mais j'ai du mal</span></div>
+                    <div class="option" data-value="1" data-pillar="strategie" onclick="selectOption(this)"><div class="option-dot"></div><span>Impossible actuellement</span></div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn btn-back" onclick="prevQuestion(10)">Retour</button>
+                    <button class="btn btn-next" id="nextBtn10" disabled onclick="showResults()">Voir mon diagnostic →</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="results-container" id="resultsSection">
+            <div class="score-card">
+                <div class="score-circle">
+                    <span class="score-number" id="finalScore">0</span>
+                    <span style="font-size:14px; color:#94a3b8">/ 30</span>
+                </div>
+                <h2 id="scoreLabel">Analyse terminée</h2>
+                <p id="scoreDescription" style="margin-top:15px; line-height:1.6"></p>
+            </div>
+
+            <div id="pillarList" style="background:#1e293b; padding:25px; border-radius:16px; margin-bottom:30px;">
+                </div>
+
+            <div style="text-align:center; background:linear-gradient(135deg, #1e3a5f, #2d1b4e); padding:30px; border-radius:16px;">
+                <h3>Besoin d'un plan d'action ?</h3>
+                <p style="margin: 15px 0;">Réservez 15 min pour débriefer vos résultats.</p>
+                <a href="https://calendly.com/matthieu-remonnay" target="_blank" class="btn btn-next" style="display:inline-block; text-decoration:none; margin-left:0">Réserver mon créneau</a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2026 Matthieu Remonnay · Conseil Stratégique & Performance Financière</p>
+            <p style="margin-top: 8px;">
+                <a href="https://www.linkedin.com/in/matthieuremonnay/" target="_blank">LinkedIn</a> · 06 70 19 74 94 · Lyon & National
+            </p>
+        </div>
+    </div>
+
+    <script>
+        let currentQuestion = 1;
+        const answers = {};
+        const pillars = {
+            finance: { label: "Finance", score: 0, total: 6 },
+            commercial: { label: "Commercial", score: 0, total: 6 },
+            management: { label: "Management", score: 0, total: 6 },
+            orga: { label: "Organisation", score: 0, total: 6 },
+            strategie: { label: "Stratégie", score: 0, total: 6 }
+        };
+
+        function selectOption(el) {
+            const card = el.closest('.question-card');
+            const q = card.dataset.question;
+            card.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+            el.classList.add('selected');
+            answers[q] = { val: parseInt(el.dataset.value), pillar: el.dataset.pillar };
+            document.getElementById('nextBtn' + q).disabled = false;
+        }
+
+        function nextQuestion(q) {
+            document.querySelector(`[data-question="${q}"]`).classList.remove('active');
+            currentQuestion++;
+            document.querySelector(`[data-question="${currentQuestion}"]`).classList.add('active');
+            updateProgress();
+            window.scrollTo(0,0);
+        }
+
+        function prevQuestion(q) {
+            document.querySelector(`[data-question="${q}"]`).classList.remove('active');
+            currentQuestion--;
+            document.querySelector(`[data-question="${currentQuestion}"]`).classList.add('active');
+            updateProgress();
+            window.scrollTo(0,0);
+        }
+
+        function updateProgress() {
+            const pct = (currentQuestion / 10) * 100;
+            document.getElementById('progressFill').style.width = pct + '%';
+            document.getElementById('progressCount').innerText = currentQuestion + ' / 10';
+        }
+
+        function showResults() {
+            document.getElementById('quizSection').style.display = 'none';
+            document.getElementById('progressContainer').style.display = 'none';
+            document.getElementById('resultsSection').classList.add('active');
+            window.scrollTo(0,0);
+            
+            let total = 0;
+            Object.values(answers).forEach(a => {
+                total += a.val;
+                pillars[a.pillar].score += a.val;
+            });
+
+            document.getElementById('finalScore').innerText = total;
+            const desc = document.getElementById('scoreDescription');
+            if(total > 24) desc.innerText = "Félicitations ! Votre structure est solide. Il s'agit maintenant d'optimiser les détails pour passer à l'échelle supérieure.";
+            else if(total > 16) desc.innerText = "Des bases existent mais votre croissance est freinée par des angles morts. Une structuration est nécessaire.";
+            else desc.innerText = "Attention : votre entreprise est en zone de risque. Un pilotage financier et une réorganisation sont prioritaires pour sécuriser l'activité.";
+
+            const list = document.getElementById('pillarList');
+            list.innerHTML = '<h3 style="margin-bottom:20px">Détail par pilier :</h3>';
+            Object.keys(pillars).forEach(k => {
+                const p = pillars[k];
+                const pct = (p.score / p.total) * 100;
+                list.innerHTML += `
+                    <div class="pillar-row">
+                        <span style="width:100px; font-size:13px">${p.label}</span>
+                        <div class="pillar-bar-bg"><div class="pillar-bar-fill" style="width:${pct}%"></div></div>
+                        <span style="font-size:12px">${p.score}/6</span>
+                    </div>`;
+            });
+        }
+    </script>
+</body>
+</html>
