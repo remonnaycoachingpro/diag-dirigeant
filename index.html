@@ -34,7 +34,7 @@
         .option { display: flex; align-items: center; gap: 14px; padding: 14px 18px; background: #0f172a; border: 2px solid #334155; border-radius: 12px; cursor: pointer; transition: all 0.25s ease; font-size: 15px; color: #cbd5e1; }
         .option:hover { border-color: #3b82f6; background: rgba(59, 130, 246, 0.05); }
         .option.selected { border-color: #3b82f6; background: rgba(59, 130, 246, 0.1); color: #f1f5f9; }
-        .option-dot { width: 20px; height: 20px; border-radius: 50%; border: 2px solid #475569; display: flex; align-items: center; justify-content: center; }
+        .option-dot { width: 20px; height: 20px; border-radius: 50%; border: 2px solid #475569; display: flex; align-items: center; justify-content: center; min-width: 20px; }
         .option.selected .option-dot { border-color: #3b82f6; background: #3b82f6; }
         .nav-buttons { display: flex; justify-content: space-between; margin-top: 24px; }
         .btn { padding: 12px 28px; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.25s ease; border: none; }
@@ -49,7 +49,7 @@
         .pillar-row { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
         .pillar-bar-bg { flex: 1; height: 8px; background: #0f172a; border-radius: 10px; overflow: hidden; }
         .pillar-bar-fill { height: 100%; background: #3b82f6; width: 0; transition: width 1s ease; }
-        .footer { text-align: center; padding: 40px 20px; color: #64748b; font-size: 13px; border-top: 1px solid #1e293b; }
+        .footer { text-align: center; padding: 40px 20px; color: #64748b; font-size: 13px; border-top: 1px solid #1e293b; margin-top: 40px; }
         .footer a { color: #3b82f6; text-decoration: none; }
     </style>
 </head>
@@ -66,4 +66,15 @@
     <div class="container">
         <div class="progress-bar-container" id="progressContainer">
             <div class="progress-info">
-                <span class="progress-label">Analyse de performance
+                <span class="progress-label">Analyse de performance</span>
+                <span class="progress-count" id="progressCount">1 / 10</span>
+            </div>
+            <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+        </div>
+
+        <div id="quizSection">
+            <div class="question-card active" data-question="1">
+                <div class="pillar-tag pillar-finance">💰 Finance</div>
+                <h2>Connaissez-vous votre point mort (seuil de rentabilité) précis ?</h2>
+                <div class="options">
+                    <div class="option" data-value="3" data-
