@@ -18,10 +18,10 @@
         .question-card { background: #1e293b; border: 1px solid #334155; border-radius: 16px; padding: 25px; display: none; margin-bottom: 30px; }
         .question-card.active { display: block; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-        .pillar-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 10px; display: block; color: #60a5fa; }
+        .pillar-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 10px; display: block; }
         h2 { font-size: 20px; color: white; margin-bottom: 20px; }
         .options { display: flex; flex-direction: column; gap: 10px; }
-        .option { padding: 15px; background: #0f172a; border: 2px solid #334155; border-radius: 12px; cursor: pointer; color: #cbd5e1; font-weight: 500; }
+        .option { padding: 15px; background: #0f172a; border: 2px solid #334155; border-radius: 12px; cursor: pointer; color: #cbd5e1; font-weight: 500; transition: 0.2s; }
         .option.selected { border-color: #3b82f6; background: rgba(59, 130, 246, 0.1); color: white; }
         .nav-buttons { display: flex; gap: 10px; margin-top: 25px; }
         .btn { flex: 1; padding: 15px; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; border: none; font-family: inherit; transition: 0.2s; }
@@ -48,7 +48,7 @@
                 <span id="progLabel" style="color:#94a3b8">Analyse en cours...</span>
                 <span id="progText" style="color:#3b82f6">1 / 10</span>
             </div>
-            <div class="progress-track"><div class="progress-fill" id="progFill"></div></div>
+            <div class="progress-track"><div class="progress-fill" id="progFill" style="width: 10%;"></div></div>
         </div>
 
         <div id="quiz">
@@ -60,7 +60,9 @@
                     <div class="option" data-v="2" onclick="sel(this)">Approximativement</div>
                     <div class="option" data-v="1" onclick="sel(this)">Pas vraiment</div>
                 </div>
-                <div class="nav-buttons"><button class="btn btn-next" id="n1" disabled onclick="nxt(1)">Suivant →</button></div>
+                <div class="nav-buttons">
+                    <button class="btn btn-next" id="n1" disabled onclick="nxt(1)">Suivant →</button>
+                </div>
             </div>
 
             <div class="question-card" data-q="2">
@@ -71,70 +73,5 @@
                     <div class="option" data-v="2" onclick="sel(this)">Vision court terme</div>
                     <div class="option" data-v="1" onclick="sel(this)">Non, je gère à vue</div>
                 </div>
-                <div class="nav-buttons"><button class="btn btn-back" onclick="prv(2)">Retour</button><button class="btn btn-next" id="n2" disabled onclick="nxt(2)">Suivant →</button></div>
-            </div>
-
-            <div class="question-card" data-q="3">
-                <span class="pillar-tag" style="color:#60a5fa">Commercial</span>
-                <h2>Votre acquisition client est-elle régulière ?</h2>
-                <div class="options">
-                    <div class="option" data-v="3" onclick="sel(this)">Oui, flux prévisible</div>
-                    <div class="option" data-v="2" onclick="sel(this)">Aléatoire</div>
-                    <div class="option" data-v="1" onclick="sel(this)">Bouche-à-oreille uniquement</div>
-                </div>
-                <div class="nav-buttons"><button class="btn btn-back" onclick="prv(3)">Retour</button><button class="btn btn-next" id="n3" disabled onclick="nxt(3)">Suivant →</button></div>
-            </div>
-
-            <div class="question-card" data-q="4">
-                <span class="pillar-tag" style="color:#60a5fa">Commercial</span>
-                <h2>Suivez-vous votre taux de conversion prospect/client ?</h2>
-                <div class="options">
-                    <div class="option" data-v="3" onclick="sel(this)">Oui, pilotage précis</div>
-                    <div class="option" data-v="2" onclick="sel(this)">Vaguement</div>
-                    <div class="option" data-v="1" onclick="sel(this)">Non</div>
-                </div>
-                <div class="nav-buttons"><button class="btn btn-back" onclick="prv(4)">Retour</button><button class="btn btn-next" id="n4" disabled onclick="nxt(4)">Suivant →</button></div>
-            </div>
-
-            <div class="question-card" data-q="5">
-                <span class="pillar-tag" style="color:#c084fc">Management</span>
-                <h2>Vos collaborateurs ont-ils des objectifs clairs et écrits ?</h2>
-                <div class="options">
-                    <div class="option" data-v="3" onclick="sel(this)">Oui, tout est structuré</div>
-                    <div class="option" data-v="2" onclick="sel(this)">Oralement</div>
-                    <div class="option" data-v="1" onclick="sel(this)">Non, on improvise</div>
-                </div>
-                <div class="nav-buttons"><button class="btn btn-back" onclick="prv(5)">Retour</button><button class="btn btn-next" id="n5" disabled onclick="nxt(5)">Suivant →</button></div>
-            </div>
-
-            <div class="question-card" data-q="6">
-                <span class="pillar-tag" style="color:#c084fc">Management</span>
-                <h2>Arrivez-vous à déléguer sans devoir tout repasser ?</h2>
-                <div class="options">
-                    <div class="option" data-v="3" onclick="sel(this)">Oui, sereinement</div>
-                    <div class="option" data-v="2" onclick="sel(this)">Difficilement</div>
-                    <div class="option" data-v="1" onclick="sel(this)">Je fais tout moi-même</div>
-                </div>
-                <div class="nav-buttons"><button class="btn btn-back" onclick="prv(6)">Retour</button><button class="btn btn-next" id="n6" disabled onclick="nxt(6)">Suivant →</button></div>
-            </div>
-
-            <div class="question-card" data-q="7">
-                <span class="pillar-tag" style="color:#fb923c">Organisation</span>
-                <h2>Vos process clés (vente, prod) sont-ils modélisés ?</h2>
-                <div class="options">
-                    <div class="option" data-v="3" onclick="sel(this)">Oui, c'est écrit</div>
-                    <div class="option" data-v="2" onclick="sel(this)">En partie</div>
-                    <div class="option" data-v="1" onclick="sel(this)">Tout est dans ma tête</div>
-                </div>
-                <div class="nav-buttons"><button class="btn btn-back" onclick="prv(7)">Retour</button><button class="btn btn-next" id="n7" disabled onclick="nxt(7)">Suivant →</button></div>
-            </div>
-
-            <div class="question-card" data-q="8">
-                <span class="pillar-tag" style="color:#fb923c">Organisation</span>
-                <h2>Subissez-vous des urgences quotidiennes ?</h2>
-                <div class="options">
-                    <div class="option" data-v="3" onclick="sel(this)">Rarement</div>
-                    <div class="option" data-v="2" onclick="sel(this)">Souvent</div>
-                    <div class="option" data-v="1" onclick="sel(this)">C'est mon quotidien</div>
-                </div>
-                <div class="nav-buttons"><button class="btn btn-back" onclick="prv(8)">Retour</button><button class="btn btn-next" id="n8" disabled onclick
+                <div class="nav-buttons">
+                    <button class="btn btn-back" onclick="prv(2)">Retour</button>
