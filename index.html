@@ -27,30 +27,33 @@
         .option.selected .option-dot { background: #3b82f6; border-color: #3b82f6; box-shadow: inset 0 0 0 3px #0f172a; }
         .nav-buttons { display: flex; justify-content: space-between; margin-top: 30px; }
         .btn { padding: 12px 24px; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; font-family: inherit; }
-        .btn-next { background: #3b82f6; color: white; margin-left: auto; }
+        .btn-next { background: #3b82f6; color: white; margin-left: auto; width: 100%; max-width: 250px; }
         .btn-next:disabled { opacity: 0.3; cursor: not-allowed; }
         .btn-back { background: transparent; color: #94a3b8; border: 1px solid #475569; }
-        .results-container { display: none; padding: 20px; background: #1e293b; border-radius: 20px; border: 1px solid #334155; text-align: center; }
+        .results-container { display: none; padding: 30px; background: #1e293b; border-radius: 20px; border: 1px solid #334155; text-align: center; }
         .results-container.active { display: block; }
         .score-circle { width: 100px; height: 100px; border-radius: 50%; border: 4px solid #3b82f6; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 800; margin: 20px auto; }
+        input[type="email"] { width: 100%; padding: 14px; border-radius: 10px; border: 1px solid #334155; background: #0f172a; color: white; margin-bottom: 15px; font-size: 15px; }
         .footer { text-align: center; padding: 40px 20px; color: #64748b; font-size: 13px; margin-top: 40px; border-top: 1px solid #1e293b; }
-        .footer a { color: #3b82f6; text-decoration: none; font-weight: 600; }
+        #success-message { display:none; background: #064e3b; color: #6ee7b7; padding: 20px; border-radius: 12px; margin-top: 20px; font-weight: 500; }
     </style>
 </head>
 <body>
     <div class="hero">
         <div class="badge">⚡ Diag Flash Performance</div>
         <h1>Votre entreprise est-elle solide ?</h1>
-        <p>10 questions pour évaluer vos piliers de croissance.</p>
+        <p>Évaluez vos 5 piliers de croissance en 2 minutes.</p>
     </div>
+
     <div class="container">
         <div class="progress-bar-container" id="progCont">
-            <div style="display:flex; justify-content:space-between; font-size:12px; font-weight:600;">
-                <span style="color:#94a3b8">Progression</span>
+            <div style="display:flex; justify-content:space-between; font-size:12px;">
+                <span style="color:#94a3b8">Analyse en cours...</span>
                 <span id="progText" style="color:#3b82f6">1 / 10</span>
             </div>
             <div class="progress-track"><div class="progress-fill" id="progFill"></div></div>
         </div>
+
         <div id="quiz">
             <div class="question-card active" data-q="1">
                 <span class="pillar-tag" style="color:#4ade80">Finance</span>
@@ -66,4 +69,178 @@
                 <span class="pillar-tag" style="color:#4ade80">Finance</span>
                 <h2>Disposez-vous d'un prévisionnel de trésorerie à 6 mois ?</h2>
                 <div class="options">
-                    <div class="option" data-v
+                    <div class="option" data-v="3" data-p="finance" onclick="sel(this)"><div class="option-dot"></div>Oui, à jour</div>
+                    <div class="option" data-v="2" data-p="finance" onclick="sel(this)"><div class="option-dot"></div>Vision court terme</div>
+                    <div class="option" data-v="1" data-p="finance" onclick="sel(this)"><div class="option-dot"></div>Non, je gère à vue</div>
+                </div>
+                <div class="nav-buttons"><button class="btn btn-back" onclick="prv(2)">Retour</button><button class="btn btn-next" id="n2" disabled onclick="nxt(2)">Suivant →</button></div>
+            </div>
+            <div class="question-card" data-q="3">
+                <span class="pillar-tag" style="color:#60a5fa">Commercial</span>
+                <h2>Votre acquisition client est-elle régulière ?</h2>
+                <div class="options">
+                    <div class="option" data-v="3" data-p="com" onclick="sel(this)"><div class="option-dot"></div>Oui, flux prévisible</div>
+                    <div class="option" data-v="2" data-p="com" onclick="sel(this)"><div class="option-dot"></div>Aléatoire</div>
+                    <div class="option" data-v="1" data-p="com" onclick="sel(this)"><div class="option-dot"></div>Bouche-à-oreille uniquement</div>
+                </div>
+                <div class="nav-buttons"><button class="btn btn-back" onclick="prv(3)">Retour</button><button class="btn btn-next" id="n3" disabled onclick="nxt(3)">Suivant →</button></div>
+            </div>
+            <div class="question-card" data-q="4">
+                <span class="pillar-tag" style="color:#60a5fa">Commercial</span>
+                <h2>Suivez-vous votre taux de conversion prospect/client ?</h2>
+                <div class="options">
+                    <div class="option" data-v="3" data-p="com" onclick="sel(this)"><div class="option-dot"></div>Oui, pilotage précis</div>
+                    <div class="option" data-v="2" data-p="com" onclick="sel(this)"><div class="option-dot"></div>Vaguement</div>
+                    <div class="option" data-v="1" data-p="com" onclick="sel(this)"><div class="option-dot"></div>Non</div>
+                </div>
+                <div class="nav-buttons"><button class="btn btn-back" onclick="prv(4)">Retour</button><button class="btn btn-next" id="n4" disabled onclick="nxt(4)">Suivant →</button></div>
+            </div>
+            <div class="question-card" data-q="5">
+                <span class="pillar-tag" style="color:#c084fc">Management</span>
+                <h2>Vos collaborateurs ont-ils des objectifs clairs et écrits ?</h2>
+                <div class="options">
+                    <div class="option" data-v="3" data-p="man" onclick="sel(this)"><div class="option-dot"></div>Oui, tout est structuré</div>
+                    <div class="option" data-v="2" data-p="man" onclick="sel(this)"><div class="option-dot"></div>Oralement</div>
+                    <div class="option" data-v="1" data-p="man" onclick="sel(this)"><div class="option-dot"></div>Non, on improvise</div>
+                </div>
+                <div class="nav-buttons"><button class="btn btn-back" onclick="prv(5)">Retour</button><button class="btn btn-next" id="n5" disabled onclick="nxt(5)">Suivant →</button></div>
+            </div>
+            <div class="question-card" data-q="6">
+                <span class="pillar-tag" style="color:#c084fc">Management</span>
+                <h2>Arrivez-vous à déléguer sans devoir tout repasser ?</h2>
+                <div class="options">
+                    <div class="option" data-v="3" data-p="man" onclick="sel(this)"><div class="option-dot"></div>Oui, sereinement</div>
+                    <div class="option" data-v="2" data-p="man" onclick="sel(this)"><div class="option-dot"></div>Difficilement</div>
+                    <div class="option" data-v="1" data-p="man" onclick="sel(this)"><div class="option-dot"></div>Je fais tout moi-même</div>
+                </div>
+                <div class="nav-buttons"><button class="btn btn-back" onclick="prv(6)">Retour</button><button class="btn btn-next" id="n6" disabled onclick="nxt(6)">Suivant →</button></div>
+            </div>
+            <div class="question-card" data-q="7">
+                <span class="pillar-tag" style="color:#fb923c">Organisation</span>
+                <h2>Vos process clés (vente, prod) sont-ils modélisés ?</h2>
+                <div class="options">
+                    <div class="option" data-v="3" data-p="org" onclick="sel(this)"><div class="option-dot"></div>Oui, c'est écrit</div>
+                    <div class="option" data-v="2" data-p="org" onclick="sel(this)"><div class="option-dot"></div>En partie</div>
+                    <div class="option" data-v="1" data-p="org" onclick="sel(this)"><div class="option-dot"></div>Tout est dans ma tête</div>
+                </div>
+                <div class="nav-buttons"><button class="btn btn-back" onclick="prv(7)">Retour</button><button class="btn btn-next" id="n7" disabled onclick="nxt(7)">Suivant →</button></div>
+            </div>
+            <div class="question-card" data-q="8">
+                <span class="pillar-tag" style="color:#fb923c">Organisation</span>
+                <h2>Subissez-vous des urgences quotidiennes ?</h2>
+                <div class="options">
+                    <div class="option" data-v="3" data-p="org" onclick="sel(this)"><div class="option-dot"></div>Rarement</div>
+                    <div class="option" data-v="2" data-p="org" onclick="sel(this)"><div class="option-dot"></div>Souvent</div>
+                    <div class="option" data-v="1" data-p="org" onclick="sel(this)"><div class="option-dot"></div>C'est mon quotidien</div>
+                </div>
+                <div class="nav-buttons"><button class="btn btn-back" onclick="prv(8)">Retour</button><button class="btn btn-next" id="n8" disabled onclick="nxt(8)">Suivant →</button></div>
+            </div>
+            <div class="question-card" data-q="9">
+                <span class="pillar-tag" style="color:#f472b6">Vision</span>
+                <h2>Avez-vous un plan stratégique à 3 ans ?</h2>
+                <div class="options">
+                    <div class="option" data-v="3" data-p="vis" onclick="sel(this)"><div class="option-dot"></div>Oui, clair et suivi</div>
+                    <div class="option" data-v="2" data-p="vis" onclick="sel(this)"><div class="option-dot"></div>Une idée vague</div>
+                    <div class="option" data-v="1" data-p="vis" onclick="sel(this)"><div class="option-dot"></div>Non, je subis</div>
+                </div>
+                <div class="nav-buttons"><button class="btn btn-back" onclick="prv(9)">Retour</button><button class="btn btn-next" id="n9" disabled onclick="nxt(9)">Suivant →</button></div>
+            </div>
+            <div class="question-card" data-q="10">
+                <span class="pillar-tag" style="color:#f472b6">Vision</span>
+                <h2>Prenez-vous du temps stratégique chaque semaine ?</h2>
+                <div class="options">
+                    <div class="option" data-v="3" data-p="vis" onclick="sel(this)"><div class="option-dot"></div>Oui, c'est sacré</div>
+                    <div class="option" data-v="2" data-p="vis" onclick="sel(this)"><div class="option-dot"></div>J'essaie</div>
+                    <div class="option" data-v="1" data-p="vis" onclick="sel(this)"><div class="option-dot"></div>Pas le temps</div>
+                </div>
+                <div class="nav-buttons"><button class="btn btn-back" onclick="prv(10)">Retour</button><button class="btn btn-next" id="n10" disabled onclick="res()">Voir mon score →</button></div>
+            </div>
+        </div>
+
+        <div class="results-container" id="resCont">
+            <h2>Votre score de solidité :</h2>
+            <div class="score-circle" id="total">0</div>
+            <p id="feedback" style="margin-bottom:25px;"></p>
+            
+            <form id="diag-form" action="https://formspree.io/f/xvgzlowz" method="POST">
+                <input type="email" name="email" placeholder="Votre adresse email" required>
+                <input type="hidden" name="score_total" id="hide-total">
+                <input type="hidden" name="details" id="hide-details">
+                <button type="submit" class="btn btn-next" style="margin:0 auto; display:block">Recevoir mon analyse complète</button>
+            </form>
+            <div id="success-message">
+                ✅ Demande envoyée ! <br><br>
+                Je prépare votre analyse personnalisée. <br>
+                Vous recevrez une proposition de RDV sous 24h.
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>© 2026 Matthieu Remonnay · Lyon & National</p>
+        <p style="margin-top:8px;"><a href="https://www.linkedin.com/in/matthieuremonnay/" target="_blank">LinkedIn</a> · 06 70 19 74 94</p>
+    </div>
+
+    <script>
+        let answers = {};
+        function sel(el){
+            let q = el.closest('.question-card').dataset.q;
+            el.closest('.options').querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
+            el.classList.add('selected');
+            answers[q] = { v: parseInt(el.dataset.v), txt: el.innerText };
+            document.getElementById('n'+q).disabled = false;
+        }
+        function nxt(q){
+            document.querySelector(`[data-q="${q}"]`).classList.remove('active');
+            document.querySelector(`[data-q="${q+1}"]`).classList.add('active');
+            upd(q+1);
+        }
+        function prv(q){
+            document.querySelector(`[data-q="${q}"]`).classList.remove('active');
+            document.querySelector(`[data-q="${q-1}"]`).classList.add('active');
+            upd(q-1);
+        }
+        function upd(q){
+            document.getElementById('progFill').style.width = (q/10)*100 + '%';
+            document.getElementById('progText').innerText = q + ' / 10';
+            window.scrollTo(0,0);
+        }
+        function res(){
+            document.getElementById('quiz').style.display = 'none';
+            document.getElementById('progCont').style.display = 'none';
+            let score = Object.values(answers).reduce((a,b)=>a+b.v,0);
+            document.getElementById('total').innerText = score;
+            document.getElementById('resCont').classList.add('active');
+            
+            // Préparation des données pour le mail
+            document.getElementById('hide-total').value = score + " / 30";
+            let details = "";
+            for(let key in answers) { details += "Q"+key+": "+answers[key].txt + " | "; }
+            document.getElementById('hide-details').value = details;
+
+            let f = document.getElementById('feedback');
+            if(score > 24) f.innerText = "Solidité excellente. Votre structure est saine.";
+            else if(score > 16) f.innerText = "Solidité moyenne. Des bases existent mais des risques subsistent.";
+            else f.innerText = "Solidité fragile. Votre entreprise est en zone de danger opérationnel.";
+            window.scrollTo(0,0);
+        }
+
+        // Gestion de l'envoi du formulaire (Formspree)
+        var form = document.getElementById("diag-form");
+        form.addEventListener("submit", function(event) {
+          event.preventDefault();
+          var data = new FormData(event.target);
+          fetch(event.target.action, {
+            method: form.method,
+            body: data,
+            headers: { 'Accept': 'application/json' }
+          }).then(response => {
+            if (response.ok) {
+              form.style.display = 'none';
+              document.getElementById('success-message').style.display = 'block';
+            }
+          });
+        });
+    </script>
+</body>
+</html>
