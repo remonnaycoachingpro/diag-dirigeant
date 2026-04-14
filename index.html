@@ -8,70 +8,557 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { font-family: 'Inter', sans-serif; background: #0f172a; color: #e2e8f0; line-height: 1.5; overflow-x: hidden; }
+
         .hero { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); padding: 40px 20px; text-align: center; }
-        .badge { display: inline-block; background: rgba(59, 130, 246, 0.1); border: 1px solid #3b82f6; color: #60a5fa; padding: 5px 15px; border-radius: 50px; font-size: 12px; font-weight: 700; margin-bottom: 15px; text-transform: uppercase; }
+        .badge { display: inline-block; background: rgba(59,130,246,0.1); border: 1px solid #3b82f6; color: #60a5fa; padding: 5px 15px; border-radius: 50px; font-size: 12px; font-weight: 700; margin-bottom: 15px; text-transform: uppercase; }
         h1 { font-size: 28px; font-weight: 800; color: white; margin-bottom: 10px; }
+        .hero-sub { color: #94a3b8; font-size: 15px; max-width: 440px; margin: 0 auto; }
+
         .container { max-width: 600px; margin: 0 auto; padding: 15px; }
+
         .progress-bar-container { background: #1e293b; border-radius: 12px; padding: 15px; margin-bottom: 20px; border: 1px solid #334155; position: sticky; top: 10px; z-index: 100; }
+        .progress-info { display: flex; justify-content: space-between; font-size: 12px; }
         .progress-track { width: 100%; height: 8px; background: #334155; border-radius: 10px; margin-top: 10px; overflow: hidden; }
-        .progress-fill { height: 100%; background: #3b82f6; width: 10%; transition: width 0.3s ease; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #3b82f6, #8b5cf6); width: 10%; transition: width 0.4s ease; border-radius: 10px; }
+
         .question-card { background: #1e293b; border: 1px solid #334155; border-radius: 16px; padding: 25px; display: none; margin-bottom: 30px; }
         .question-card.active { display: block; animation: fadeIn 0.3s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-        .pillar-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 10px; display: block; }
-        h2 { font-size: 20px; color: white; margin-bottom: 20px; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+        .pillar-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 12px; display: inline-block; padding: 4px 10px; border-radius: 50px; }
+        .tag-finance { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.25); }
+        .tag-commercial { background: rgba(96,165,250,0.1); color: #60a5fa; border: 1px solid rgba(96,165,250,0.25); }
+        .tag-management { background: rgba(192,132,252,0.1); color: #c084fc; border: 1px solid rgba(192,132,252,0.25); }
+        .tag-orga { background: rgba(251,146,60,0.1); color: #fb923c; border: 1px solid rgba(251,146,60,0.25); }
+        .tag-vision { background: rgba(244,114,182,0.1); color: #f472b6; border: 1px solid rgba(244,114,182,0.25); }
+
+        h2 { font-size: 19px; color: white; margin-bottom: 20px; line-height: 1.4; }
+
         .options { display: flex; flex-direction: column; gap: 10px; }
-        .option { padding: 15px; background: #0f172a; border: 2px solid #334155; border-radius: 12px; cursor: pointer; color: #cbd5e1; font-weight: 500; transition: 0.2s; }
-        .option.selected { border-color: #3b82f6; background: rgba(59, 130, 246, 0.1); color: white; }
+        .option { padding: 14px 16px; background: #0f172a; border: 2px solid #334155; border-radius: 12px; cursor: pointer; color: #cbd5e1; font-weight: 500; font-size: 15px; transition: all 0.2s ease; display: flex; align-items: center; gap: 12px; }
+        .option:hover { border-color: #3b82f6; background: rgba(59,130,246,0.04); }
+        .option.selected { border-color: #3b82f6; background: rgba(59,130,246,0.1); color: white; }
+        .option-dot { width: 18px; height: 18px; min-width: 18px; border-radius: 50%; border: 2px solid #475569; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; }
+        .option.selected .option-dot { border-color: #3b82f6; background: #3b82f6; }
+        .option.selected .option-dot::after { content: '✓'; color: white; font-size: 10px; font-weight: 700; }
+
         .nav-buttons { display: flex; gap: 10px; margin-top: 25px; }
-        .btn { flex: 1; padding: 15px; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; border: none; font-family: inherit; transition: 0.2s; }
-        .btn-next { background: #3b82f6; color: white; }
-        .btn-next:disabled { opacity: 0.3; cursor: not-allowed; }
+        .btn { flex: 1; padding: 14px; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer; border: none; font-family: inherit; transition: all 0.2s ease; }
+        .btn-next { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; box-shadow: 0 4px 12px rgba(59,130,246,0.25); }
+        .btn-next:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(59,130,246,0.35); }
+        .btn-next:disabled { opacity: 0.3; cursor: not-allowed; transform: none; box-shadow: none; }
         .btn-back { background: transparent; color: #94a3b8; border: 1px solid #475569; }
-        .results-container { display: none; padding: 30px; background: #1e293b; border-radius: 20px; border: 1px solid #334155; text-align: center; }
+        .btn-back:hover { border-color: #64748b; color: #e2e8f0; }
+
+        /* RESULTS */
+        .results-container { display: none; animation: fadeIn 0.5s ease; }
         .results-container.active { display: block; }
-        .score-circle { width: 90px; height: 90px; border-radius: 50%; border: 4px solid #3b82f6; display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 800; margin: 20px auto; color: white; }
-        input[type="email"] { width: 100%; padding: 15px; border-radius: 10px; border: 1px solid #334155; background: #0f172a; color: white; margin-bottom: 15px; font-size: 16px; -webkit-appearance: none; }
-        #success-message { display:none; background: #064e3b; color: #6ee7b7; padding: 20px; border-radius: 12px; margin-top: 15px; }
-        .footer { text-align: center; padding: 30px; color: #64748b; font-size: 12px; }
+
+        .score-card { background: #1e293b; border: 1px solid #334155; border-radius: 20px; padding: 35px 25px; text-align: center; margin-bottom: 20px; position: relative; overflow: hidden; }
+        .score-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+        .score-card.lvl-green::before { background: linear-gradient(90deg, #22c55e, #4ade80); }
+        .score-card.lvl-orange::before { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+        .score-card.lvl-red::before { background: linear-gradient(90deg, #ef4444, #f87171); }
+
+        .score-circle { width: 100px; height: 100px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 20px; }
+        .lvl-green .score-circle { background: rgba(34,197,94,0.1); border: 3px solid #22c55e; }
+        .lvl-orange .score-circle { background: rgba(245,158,11,0.1); border: 3px solid #f59e0b; }
+        .lvl-red .score-circle { background: rgba(239,68,68,0.1); border: 3px solid #ef4444; }
+        .score-num { font-size: 32px; font-weight: 800; line-height: 1; }
+        .lvl-green .score-num { color: #4ade80; }
+        .lvl-orange .score-num { color: #fbbf24; }
+        .lvl-red .score-num { color: #f87171; }
+        .score-max { font-size: 13px; color: #64748b; }
+        .score-label { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+        .lvl-green .score-label { color: #4ade80; }
+        .lvl-orange .score-label { color: #fbbf24; }
+        .lvl-red .score-label { color: #f87171; }
+        .score-text { font-size: 14px; color: #94a3b8; line-height: 1.6; }
+
+        .pillar-card { background: #1e293b; border: 1px solid #334155; border-radius: 16px; padding: 24px; margin-bottom: 20px; }
+        .pillar-card h3 { font-size: 15px; font-weight: 700; color: #f1f5f9; margin-bottom: 16px; }
+        .pillar-row { display: flex; align-items: center; padding: 10px 0; border-bottom: 1px solid #334155; }
+        .pillar-row:last-child { border-bottom: none; }
+        .pillar-name { font-size: 13px; font-weight: 600; color: #cbd5e1; min-width: 100px; }
+        .pillar-bar-bg { flex: 1; height: 8px; background: #334155; border-radius: 8px; margin: 0 12px; overflow: hidden; }
+        .pillar-bar { height: 100%; border-radius: 8px; transition: width 1s ease; }
+        .bar-g { background: linear-gradient(90deg, #22c55e, #4ade80); }
+        .bar-o { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+        .bar-r { background: linear-gradient(90deg, #ef4444, #f87171); }
+        .pillar-val { font-size: 13px; font-weight: 700; min-width: 36px; text-align: right; }
+        .col-g { color: #4ade80; }
+        .col-o { color: #fbbf24; }
+        .col-r { color: #f87171; }
+
+        .cta-card { background: linear-gradient(135deg, #1e3a5f 0%, #1e293b 50%, #2d1b4e 100%); border: 1px solid #334155; border-radius: 16px; padding: 30px 24px; text-align: center; margin-bottom: 20px; }
+        .cta-card h3 { font-size: 18px; font-weight: 700; color: #f1f5f9; margin-bottom: 10px; }
+        .cta-card p { font-size: 14px; color: #94a3b8; margin-bottom: 20px; line-height: 1.5; }
+
+        .form-area { margin-top: 20px; text-align: left; }
+        .form-group { margin-bottom: 14px; }
+        .form-group label { display: block; font-size: 12px; font-weight: 600; color: #94a3b8; margin-bottom: 5px; }
+        .form-group input, .form-group textarea { width: 100%; padding: 13px 15px; border-radius: 10px; border: 2px solid #334155; background: #0f172a; color: white; font-size: 15px; font-family: inherit; transition: border-color 0.2s; -webkit-appearance: none; }
+        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: #3b82f6; }
+        .form-group textarea { resize: vertical; min-height: 70px; }
+
+        .btn-submit { width: 100%; padding: 15px; background: linear-gradient(135deg, #22c55e, #16a34a); color: white; font-size: 15px; font-weight: 700; border: none; border-radius: 10px; cursor: pointer; font-family: inherit; transition: all 0.2s ease; box-shadow: 0 4px 12px rgba(34,197,94,0.25); }
+        .btn-submit:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(34,197,94,0.35); }
+        .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        .btn-cta { display: inline-block; padding: 15px 30px; background: linear-gradient(135deg, #3b82f6, #7c3aed); color: white; font-size: 15px; font-weight: 700; border: none; border-radius: 12px; cursor: pointer; text-decoration: none; font-family: inherit; transition: all 0.3s ease; box-shadow: 0 4px 16px rgba(59,130,246,0.3); }
+        .btn-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(59,130,246,0.4); }
+
+        .success-box { display: none; background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); color: #6ee7b7; padding: 24px; border-radius: 12px; text-align: center; margin-top: 15px; line-height: 1.6; }
+        .success-box.visible { display: block; animation: fadeIn 0.4s ease; }
+
+        .error-box { display: none; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: #fca5a5; padding: 16px; border-radius: 10px; text-align: center; margin-top: 10px; font-size: 14px; }
+        .error-box.visible { display: block; }
+
+        .footer { text-align: center; padding: 30px 20px; color: #475569; font-size: 12px; }
+        .footer a { color: #60a5fa; text-decoration: none; }
+        .footer a:hover { text-decoration: underline; }
+
+        @media (max-width: 500px) {
+            .hero { padding: 30px 16px; }
+            h1 { font-size: 24px; }
+            .question-card { padding: 20px 18px; }
+            .pillar-bar-bg { display: none; }
+        }
     </style>
 </head>
 <body>
-    <div class="hero">
-        <div class="badge">⚡ Diagnostic Performance</div>
-        <h1>Solidité de votre entreprise</h1>
+
+<div class="hero">
+    <div class="badge">⚡ Diag Flash Dirigeant</div>
+    <h1>Votre entreprise est-elle vraiment sous contrôle ?</h1>
+    <p class="hero-sub">10 questions · 2 minutes · 5 piliers analysés</p>
+</div>
+
+<div class="container">
+
+    <div class="progress-bar-container" id="progCont">
+        <div class="progress-info">
+            <span id="progLabel" style="color:#94a3b8">Progression</span>
+            <span id="progText" style="color:#60a5fa; font-weight:700">1 / 10</span>
+        </div>
+        <div class="progress-track">
+            <div class="progress-fill" id="progFill"></div>
+        </div>
     </div>
 
-    <div class="container">
-        <div class="progress-bar-container" id="progCont">
-            <div style="display:flex; justify-content:space-between; font-size:12px;">
-                <span id="progLabel" style="color:#94a3b8">Analyse en cours...</span>
-                <span id="progText" style="color:#3b82f6">1 / 10</span>
+    <div id="quiz">
+
+        <!-- Q1 -->
+        <div class="question-card active" data-q="1">
+            <span class="pillar-tag tag-finance">💰 Finance</span>
+            <h2>Connaissez-vous votre seuil de rentabilité mensuel ?</h2>
+            <div class="options">
+                <div class="option" data-v="3" data-p="finance"><span class="option-dot"></span>Oui, précisément</div>
+                <div class="option" data-v="2" data-p="finance"><span class="option-dot"></span>Approximativement</div>
+                <div class="option" data-v="1" data-p="finance"><span class="option-dot"></span>Pas vraiment</div>
             </div>
-            <div class="progress-track"><div class="progress-fill" id="progFill" style="width: 10%;"></div></div>
+            <div class="nav-buttons">
+                <button class="btn btn-next" id="n1" disabled data-dir="next" data-from="1">Suivant →</button>
+            </div>
         </div>
 
-        <div id="quiz">
-            <div class="question-card active" data-q="1">
-                <span class="pillar-tag" style="color:#4ade80">Finance</span>
-                <h2>Connaissez-vous votre seuil de rentabilité mensuel ?</h2>
-                <div class="options">
-                    <div class="option" data-v="3" onclick="sel(this)">Oui, précisément</div>
-                    <div class="option" data-v="2" onclick="sel(this)">Approximativement</div>
-                    <div class="option" data-v="1" onclick="sel(this)">Pas vraiment</div>
-                </div>
-                <div class="nav-buttons">
-                    <button class="btn btn-next" id="n1" disabled onclick="nxt(1)">Suivant →</button>
-                </div>
+        <!-- Q2 -->
+        <div class="question-card" data-q="2">
+            <span class="pillar-tag tag-finance">💰 Finance</span>
+            <h2>Disposez-vous d'un prévisionnel de trésorerie à 6 mois ?</h2>
+            <div class="options">
+                <div class="option" data-v="3" data-p="finance"><span class="option-dot"></span>Oui, à jour</div>
+                <div class="option" data-v="2" data-p="finance"><span class="option-dot"></span>Vision court terme seulement</div>
+                <div class="option" data-v="1" data-p="finance"><span class="option-dot"></span>Non, je navigue à vue</div>
             </div>
+            <div class="nav-buttons">
+                <button class="btn btn-back" data-dir="prev" data-from="2">← Retour</button>
+                <button class="btn btn-next" id="n2" disabled data-dir="next" data-from="2">Suivant →</button>
+            </div>
+        </div>
 
-            <div class="question-card" data-q="2">
-                <span class="pillar-tag" style="color:#4ade80">Finance</span>
-                <h2>Disposez-vous d'un prévisionnel de trésorerie à 6 mois ?</h2>
-                <div class="options">
-                    <div class="option" data-v="3" onclick="sel(this)">Oui, à jour</div>
-                    <div class="option" data-v="2" onclick="sel(this)">Vision court terme</div>
-                    <div class="option" data-v="1" onclick="sel(this)">Non, je gère à vue</div>
-                </div>
-                <div class="nav-buttons">
-                    <button class="btn btn-back" onclick="prv(2)">Retour</button>
+        <!-- Q3 -->
+        <div class="question-card" data-q="3">
+            <span class="pillar-tag tag-commercial">📈 Commercial</span>
+            <h2>Avez-vous un flux régulier de nouveaux prospects qualifiés ?</h2>
+            <div class="options">
+                <div class="option" data-v="3" data-p="commercial"><span class="option-dot"></span>Oui, flux prévisible et régulier</div>
+                <div class="option" data-v="2" data-p="commercial"><span class="option-dot"></span>C'est irrégulier, ça dépend des périodes</div>
+                <div class="option" data-v="1" data-p="commercial"><span class="option-dot"></span>Je dépends du bouche-à-oreille</div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn btn-back" data-dir="prev" data-from="3">← Retour</button>
+                <button class="btn btn-next" id="n3" disabled data-dir="next" data-from="3">Suivant →</button>
+            </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="question-card" data-q="4">
+            <span class="pillar-tag tag-commercial">📈 Commercial</span>
+            <h2>Suivez-vous votre taux de conversion prospect → client ?</h2>
+            <div class="options">
+                <div class="option" data-v="3" data-p="commercial"><span class="option-dot"></span>Oui, pilotage précis (> 40%)</div>
+                <div class="option" data-v="2" data-p="commercial"><span class="option-dot"></span>Vaguement, je perds des affaires sans savoir pourquoi</div>
+                <div class="option" data-v="1" data-p="commercial"><span class="option-dot"></span>Non, je ne mesure pas</div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn btn-back" data-dir="prev" data-from="4">← Retour</button>
+                <button class="btn btn-next" id="n4" disabled data-dir="next" data-from="4">Suivant →</button>
+            </div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="question-card" data-q="5">
+            <span class="pillar-tag tag-management">👥 Management</span>
+            <h2>Votre équipe peut-elle fonctionner si vous êtes absent une semaine ?</h2>
+            <div class="options">
+                <div class="option" data-v="3" data-p="management"><span class="option-dot"></span>Oui, les rôles sont clairs et l'équipe est autonome</div>
+                <div class="option" data-v="2" data-p="management"><span class="option-dot"></span>Ça tourne, mais il y a des blocages sans moi</div>
+                <div class="option" data-v="1" data-p="management"><span class="option-dot"></span>Non, tout repose sur moi</div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn btn-back" data-dir="prev" data-from="5">← Retour</button>
+                <button class="btn btn-next" id="n5" disabled data-dir="next" data-from="5">Suivant →</button>
+            </div>
+        </div>
+
+        <!-- Q6 -->
+        <div class="question-card" data-q="6">
+            <span class="pillar-tag tag-management">👥 Management</span>
+            <h2>Arrivez-vous à déléguer sans devoir tout repasser derrière ?</h2>
+            <div class="options">
+                <div class="option" data-v="3" data-p="management"><span class="option-dot"></span>Oui, sereinement</div>
+                <div class="option" data-v="2" data-p="management"><span class="option-dot"></span>Difficilement, je recontôle souvent</div>
+                <div class="option" data-v="1" data-p="management"><span class="option-dot"></span>Je fais tout moi-même</div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn btn-back" data-dir="prev" data-from="6">← Retour</button>
+                <button class="btn btn-next" id="n6" disabled data-dir="next" data-from="6">Suivant →</button>
+            </div>
+        </div>
+
+        <!-- Q7 -->
+        <div class="question-card" data-q="7">
+            <span class="pillar-tag tag-orga">⚙️ Organisation</span>
+            <h2>Vos process clés (vente, production, facturation) sont-ils documentés ?</h2>
+            <div class="options">
+                <div class="option" data-v="3" data-p="orga"><span class="option-dot"></span>Oui, c'est écrit et ça tourne sans moi</div>
+                <div class="option" data-v="2" data-p="orga"><span class="option-dot"></span>En partie, il reste du manuel</div>
+                <div class="option" data-v="1" data-p="orga"><span class="option-dot"></span>Tout est dans ma tête</div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn btn-back" data-dir="prev" data-from="7">← Retour</button>
+                <button class="btn btn-next" id="n7" disabled data-dir="next" data-from="7">Suivant →</button>
+            </div>
+        </div>
+
+        <!-- Q8 -->
+        <div class="question-card" data-q="8">
+            <span class="pillar-tag tag-orga">⚙️ Organisation</span>
+            <h2>Avez-vous le sentiment de courir en permanence sans avancer sur l'essentiel ?</h2>
+            <div class="options">
+                <div class="option" data-v="3" data-p="orga"><span class="option-dot"></span>Non, mes priorités sont claires</div>
+                <div class="option" data-v="2" data-p="orga"><span class="option-dot"></span>Souvent rattrapé par les urgences</div>
+                <div class="option" data-v="1" data-p="orga"><span class="option-dot"></span>C'est mon quotidien, tête dans le guidon</div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn btn-back" data-dir="prev" data-from="8">← Retour</button>
+                <button class="btn btn-next" id="n8" disabled data-dir="next" data-from="8">Suivant →</button>
+            </div>
+        </div>
+
+        <!-- Q9 -->
+        <div class="question-card" data-q="9">
+            <span class="pillar-tag tag-vision">🎯 Stratégie</span>
+            <h2>Avez-vous une vision claire de votre entreprise dans 12 mois ?</h2>
+            <div class="options">
+                <div class="option" data-v="3" data-p="vision"><span class="option-dot"></span>Oui, objectifs chiffrés et plan d'action</div>
+                <div class="option" data-v="2" data-p="vision"><span class="option-dot"></span>Une direction, mais rien de formalisé</div>
+                <div class="option" data-v="1" data-p="vision"><span class="option-dot"></span>Non, je gère au jour le jour</div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn btn-back" data-dir="prev" data-from="9">← Retour</button>
+                <button class="btn btn-next" id="n9" disabled data-dir="next" data-from="9">Suivant →</button>
+            </div>
+        </div>
+
+        <!-- Q10 -->
+        <div class="question-card" data-q="10">
+            <span class="pillar-tag tag-vision">🎯 Stratégie</span>
+            <h2>Vous sentez-vous seul face aux décisions stratégiques ?</h2>
+            <div class="options">
+                <div class="option" data-v="3" data-p="vision"><span class="option-dot"></span>Non, je suis bien entouré (mentor, conseil, pairs)</div>
+                <div class="option" data-v="2" data-p="vision"><span class="option-dot"></span>Parfois, j'aimerais un regard extérieur</div>
+                <div class="option" data-v="1" data-p="vision"><span class="option-dot"></span>Oui, je porte tout sur mes épaules</div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn btn-back" data-dir="prev" data-from="10">← Retour</button>
+                <button class="btn btn-next" id="n10" disabled data-dir="finish" data-from="10">Voir mon diagnostic →</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- RESULTATS -->
+    <div class="results-container" id="resCont">
+        <div class="score-card" id="scoreCard">
+            <div class="score-circle">
+                <div class="score-num" id="scoreNum">0</div>
+                <div class="score-max">/ 30</div>
+            </div>
+            <div class="score-label" id="scoreLabel"></div>
+            <p class="score-text" id="scoreText"></p>
+        </div>
+
+        <div class="pillar-card">
+            <h3>📊 Détail par pilier</h3>
+            <div id="pillarDetails"></div>
+        </div>
+
+        <div class="cta-card">
+            <h3>Passez du diagnostic à l'action</h3>
+            <p>15 minutes pour transformer ces constats en leviers concrets de performance.</p>
+            <button class="btn-cta" id="ctaBtn">🚀 Récupérer mon plan d'action</button>
+            <div style="margin-top:10px; font-size:11px; color:#64748b;">100% gratuit · Sans engagement · Confidentiel</div>
+        </div>
+
+        <div id="formArea" style="display:none;">
+            <div class="cta-card" style="text-align:left;">
+                <h3 style="text-align:center;">📞 Réservez votre appel diagnostic</h3>
+                <p style="text-align:center;">Je vous recontacte sous 24h pour fixer un créneau.</p>
+                <form id="diagForm" action="https://formspree.io/f/mgorvroz" method="POST">
+                    <input type="hidden" name="_subject" value="🔥 Nouveau lead Diag Flash">
+                    <input type="hidden" name="score_total" id="hScore">
+                    <input type="hidden" name="niveau" id="hLevel">
+                    <input type="hidden" name="detail_piliers" id="hPillars">
+                    <input type="hidden" name="detail_reponses" id="hDetails">
+
+                    <div class="form-group">
+                        <label>Prénom & Nom *</label>
+                        <input type="text" name="nom" required placeholder="Jean Dupont">
+                    </div>
+                    <div class="form-group">
+                        <label>Entreprise *</label>
+                        <input type="text" name="entreprise" required placeholder="Nom de votre entreprise">
+                    </div>
+                    <div class="form-group">
+                        <label>Email professionnel *</label>
+                        <input type="email" name="email" required placeholder="jean@entreprise.fr">
+                    </div>
+                    <div class="form-group">
+                        <label>Téléphone *</label>
+                        <input type="tel" name="telephone" required placeholder="06 12 34 56 78">
+                    </div>
+                    <div class="form-group">
+                        <label>Un mot sur votre situation (optionnel)</label>
+                        <textarea name="message" placeholder="Ex : Je cherche à améliorer ma rentabilité..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit" id="submitBtn">Envoyer ma demande →</button>
+                </form>
+                <div class="error-box" id="errorBox">Erreur d'envoi. Vérifiez votre connexion et réessayez.</div>
+            </div>
+        </div>
+
+        <div class="success-box" id="successBox">
+            <div style="font-size:36px; margin-bottom:10px;">✅</div>
+            <strong style="font-size:18px;">Demande envoyée avec succès !</strong><br><br>
+            Matthieu vous recontacte sous 24h pour fixer votre appel diagnostic de 15 minutes.<br>Pensez à vérifier vos spams.
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Diag Flash Dirigeant — <a href="https://www.linkedin.com/in/matthieu-remonnay-5a441280/" target="_blank">Matthieu Remonnay</a></p>
+        <p style="margin-top:4px;">Coach dirigeant · Performance & Pilotage financier · 06 70 19 74 94</p>
+    </div>
+
+</div>
+
+<script>
+(function() {
+    "use strict";
+
+    var scores = {};
+    var TOTAL_Q = 10;
+
+    // ===== SELECTION D'OPTION =====
+    document.querySelectorAll('.option').forEach(function(opt) {
+        opt.addEventListener('click', function() {
+            var card = this.closest('.question-card');
+            var q = card.getAttribute('data-q');
+            card.querySelectorAll('.option').forEach(function(o) { o.classList.remove('selected'); });
+            this.classList.add('selected');
+            scores[q] = {
+                v: parseInt(this.getAttribute('data-v')),
+                p: this.getAttribute('data-p'),
+                t: this.textContent.trim()
+            };
+            var nextBtn = document.getElementById('n' + q);
+            if (nextBtn) nextBtn.disabled = false;
+        });
+    });
+
+    // ===== NAVIGATION =====
+    document.querySelectorAll('.btn[data-dir]').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var dir = this.getAttribute('data-dir');
+            var from = parseInt(this.getAttribute('data-from'));
+
+            if (dir === 'next') {
+                if (!scores[from]) return;
+                showCard(from, from + 1);
+            } else if (dir === 'prev') {
+                showCard(from, from - 1);
+            } else if (dir === 'finish') {
+                if (!scores[from]) return;
+                showResults();
+            }
+        });
+    });
+
+    function showCard(fromQ, toQ) {
+        var fromCard = document.querySelector('[data-q="' + fromQ + '"]');
+        var toCard = document.querySelector('[data-q="' + toQ + '"]');
+        if (fromCard) fromCard.classList.remove('active');
+        if (toCard) toCard.classList.add('active');
+        updateProgress(toQ);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateProgress(q) {
+        var pct = (q / TOTAL_Q) * 100;
+        document.getElementById('progFill').style.width = pct + '%';
+        document.getElementById('progText').textContent = q + ' / ' + TOTAL_Q;
+    }
+
+    // ===== RESULTATS =====
+    function showResults() {
+        document.getElementById('quiz').style.display = 'none';
+        document.getElementById('progCont').style.display = 'none';
+
+        var total = 0;
+        var pillars = { finance: 0, commercial: 0, management: 0, orga: 0, vision: 0 };
+        var details = '';
+
+        for (var i = 1; i <= TOTAL_Q; i++) {
+            if (scores[i]) {
+                total += scores[i].v;
+                pillars[scores[i].p] += scores[i].v;
+                details += 'Q' + i + ': ' + scores[i].t + ' (' + scores[i].v + '/3) | ';
+            }
+        }
+
+        document.getElementById('scoreNum').textContent = total;
+
+        var card = document.getElementById('scoreCard');
+        var label = document.getElementById('scoreLabel');
+        var text = document.getElementById('scoreText');
+        var level = '';
+
+        if (total >= 24) {
+            card.className = 'score-card lvl-green';
+            label.textContent = '🟢 Bonne maîtrise';
+            text.textContent = 'Votre entreprise repose sur des bases solides. Quelques optimisations ciblées pourraient encore accélérer votre croissance et sécuriser vos acquis.';
+            level = 'Bonne maîtrise';
+        } else if (total >= 17) {
+            card.className = 'score-card lvl-orange';
+            label.textContent = '🟠 Vigilance requise';
+            text.textContent = 'Des fondations correctes, mais certains piliers méritent une attention immédiate avant qu\'ils ne freinent votre développement. C\'est le bon moment pour structurer.';
+            level = 'Vigilance requise';
+        } else {
+            card.className = 'score-card lvl-red';
+            label.textContent = '🔴 Alerte';
+            text.textContent = 'Attention : plusieurs piliers sont en tension. Ignorer ces signaux aujourd\'hui coûte plus cher que de les traiter. Posons un diagnostic clair ensemble.';
+            level = 'Alerte';
+        }
+
+        // Piliers
+        var pillarConfig = {
+            finance:    { name: 'Pilotage financier', max: 6 },
+            commercial: { name: 'Commercial',         max: 6 },
+            management: { name: 'Management',         max: 6 },
+            orga:       { name: 'Organisation',        max: 6 },
+            vision:     { name: 'Stratégie & Vision',  max: 6 }
+        };
+
+        var pillarHTML = '';
+        var pillarText = '';
+        var keys = ['finance', 'commercial', 'management', 'orga', 'vision'];
+
+        for (var k = 0; k < keys.length; k++) {
+            var key = keys[k];
+            var sc = pillars[key] || 0;
+            var mx = pillarConfig[key].max;
+            var pct = Math.round((sc / mx) * 100);
+            var barCls = 'bar-g';
+            var colCls = 'col-g';
+            if (pct < 50) { barCls = 'bar-r'; colCls = 'col-r'; }
+            else if (pct < 80) { barCls = 'bar-o'; colCls = 'col-o'; }
+
+            pillarHTML += '<div class="pillar-row">' +
+                '<span class="pillar-name">' + pillarConfig[key].name + '</span>' +
+                '<div class="pillar-bar-bg"><div class="pillar-bar ' + barCls + '" style="width:' + pct + '%"></div></div>' +
+                '<span class="pillar-val ' + colCls + '">' + sc + '/' + mx + '</span>' +
+                '</div>';
+            pillarText += pillarConfig[key].name + ': ' + sc + '/' + mx + ' | ';
+        }
+
+        document.getElementById('pillarDetails').innerHTML = pillarHTML;
+
+        // Hidden fields
+        document.getElementById('hScore').value = total + '/30';
+        document.getElementById('hLevel').value = level;
+        document.getElementById('hPillars').value = pillarText;
+        document.getElementById('hDetails').value = details;
+
+        document.getElementById('resCont').classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ===== CTA BOUTON =====
+    document.getElementById('ctaBtn').addEventListener('click', function() {
+        var formArea = document.getElementById('formArea');
+        formArea.style.display = 'block';
+        setTimeout(function() {
+            formArea.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+    });
+
+    // ===== FORMULAIRE =====
+    document.getElementById('diagForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        var btn = document.getElementById('submitBtn');
+        var errorBox = document.getElementById('errorBox');
+        errorBox.classList.remove('visible');
+        btn.disabled = true;
+        btn.textContent = 'Envoi en cours...';
+
+        var formData = new FormData(this);
+        var formEl = this;
+
+        fetch(this.action, {
+            method: 'POST',
+            body: formData,
+            headers: { 'Accept': 'application/json' }
+        })
+        .then(function(response) {
+            if (response.ok) {
+                document.getElementById('formArea').style.display = 'none';
+                document.getElementById('successBox').classList.add('visible');
+                document.getElementById('successBox').scrollIntoView({ behavior: 'smooth' });
+            } else {
+                throw new Error('Erreur serveur');
+            }
+        })
+        .catch(function() {
+            errorBox.classList.add('visible');
+            btn.disabled = false;
+            btn.textContent = 'Réessayer →';
+        });
+    });
+
+})();
+</script>
+
+</body>
+</html>
