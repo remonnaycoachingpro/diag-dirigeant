@@ -1,1 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnostic Flash Dirigeant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0f172a; --card: #1e293b; --accent: #3b82f6; --text: #f1f5f9; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; display: flex; justify-content: center; }
+        .container { max-width: 500px; width: 100%; }
+        .card { background: var(--card); padding: 25px; border-radius: 16px; border: 1px solid #334155; margin-bottom: 20px; }
+        .q-card { display: none; }
+        .q-card.active { display: block; animation: fadeIn 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .opt { background: #0f172a; padding: 15px; border: 2px solid #334155; border-radius: 12px; margin-top: 10px; cursor: pointer; transition: 0.2s; }
+        .opt:hover { border-color: var(--accent); }
+        .opt.selected { border-color: var(--accent); background: rgba(59,130,246,0.1); }
+        .btn { width: 100%; padding: 15px; border-radius: 10px; border: none; font-weight: 700; margin-top: 20px; cursor: pointer; background: var(--accent); color: white; }
+        .btn:disabled { opacity: 0.3; }
+        .pillar { font-size: 10px; text-transform: uppercase; color: var(--accent); font-weight: 800; }
+        input, textarea { width: 100%; padding: 12px; margin-top: 10px; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: white; box-sizing: border-box; }
+        #results { display: none; }
+    </style>
+</head>
+<body>
 
+<div class="container">
+    <div id="quiz">
+        </div>
+
+    <div id="results">
+        <div class="card" style="text-align: center;">
+            <h2>Votre Score : <span id="final-score">0</span>/30</h2>
+            <p id="feedback"></p>
+        </div>
+        
+        <div class="card">
+            <h3>Recevoir mon analyse complète</h3>
+            <form action="https://formspree.io/f/mgorvroz" method="POST">
+                <input type="hidden" name="score" id="hidden-score">
+                <input type="text" name="nom" placeholder="Nom et Prénom" required>
+                <input type="email" name="email" placeholder="Email pro" required>
+                <input type="tel" name="tel" placeholder="Téléphone" required>
+                <textarea name="message" placeholder="Votre principal défi actuel..."></textarea>
+                <button type="submit" class="btn" style="background: #22c55e;">Envoyer à Matthieu →</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        { p: "Finance", q: "Connaissez-vous votre seuil de rentabilité mensuel ?", k: "fin" },
+        { p: "Finance", q: "Disposez-vous d'un prévisionnel de trésorerie à 6 mois ?", k: "fin" },
+        { p: "Commerce", q: "Avez-vous un flux régulier de prospects qualifiés ?", k: "com" },
+        { p: "Commerce", q: "Suivez-vous votre taux de conversion ?", k: "com" },
+        { p: "Management", q: "Votre équipe est-elle autonome si vous partez ?", k: "man" },
+        { p: "Management", q: "Déléguez-vous sans tout recontrôler ?", k: "man" },
+        { p: "Organisation", q: "Vos process clés sont-ils écrits ?", k: "org" },
+        { p: "Organisation", q: "Subissez-vous les urgences au quotidien ?", k: "org" },
+        { p: "Stratégie", q: "Avez-vous une vision chiffrée à 12 mois ?", k: "str" },
+        { p: "Stratégie", q: "Vous sentez-vous seul face aux décisions ?", k: "str" }
+    ];
+
+    let current = 0;
+    let scores = {};
+
+    function render() {
+        const quiz = document.getElementById('quiz');
+        quiz.innerHTML = `
+            <div class="card q-card active">
+                <span class="pillar">${questions[current].p}</span>
+                <h2 style="margin: 10px 0;">${questions[current].q}</h2>
+                <div class="opt" onclick="select(3)">C'est totalement maîtrisé</div>
+                <div class="opt" onclick="select(2)">C'est en cours / moyen</div>
+                <div class="opt" onclick="select(1)">Pas du tout maîtrisé</div>
+                <button class="btn" id="next-btn" disabled onclick="next()">Question Suivante →</button>
+            </div>
+        `;
+    }
+
+    window.select = (val) => {
+        scores[current] = val;
+        document.querySelectorAll('.opt').forEach((o, i) => {
+            o.classList.toggle('selected', (3-i) === val);
+        });
+        document.getElementById('next-btn').disabled = false;
+    }
+
+    window.next = () => {
+        if (current < questions.length - 1) {
+            current++;
+            render();
+        } else {
+            showResults();
+        }
+    }
+
+    function showResults() {
+        document.getElementById('quiz').style.display = 'none';
+        const total = Object.values(scores).reduce((a, b) => a + b, 0);
+        document.getElementById('results').style.display = 'block';
+        document.getElementById('final-score').innerText = total;
+        document.getElementById('hidden-score').value = total + "/30";
+        
+        let msg = total > 22 ? "Solide ! Quelques réglages suffisent." : (total > 15 ? "Attention, des piliers sont fragiles." : "Urgence : votre structure est à risque.");
+        document.getElementById('feedback').innerText = msg;
+    }
+
+    render();
+</script>
+</body>
+</html>
