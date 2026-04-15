@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Diag Flash Dirigeant — Déclic Pro</title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
@@ -35,13 +35,11 @@
 
         .container { max-width: 620px; margin: 0 auto; padding: 24px 20px 60px; }
 
-        /* Header */
         .header { text-align: center; padding: 40px 0 32px; }
         .brand { font-family: 'DM Serif Display', serif; font-size: 28px; letter-spacing: -0.5px; }
         .brand span { color: var(--accent); font-style: italic; }
         .tagline { font-size: 13px; color: var(--muted); margin-top: 6px; font-weight: 300; letter-spacing: 0.5px; }
 
-        /* Progress */
         .prog-wrap {
             background: var(--surface);
             padding: 14px 18px;
@@ -57,7 +55,6 @@
         .prog-fill { height: 100%; background: linear-gradient(90deg, var(--accent), #7dd3fc); transition: width 0.4s cubic-bezier(.4,0,.2,1); border-radius: 10px; }
         .prog-num { font-size: 12px; font-weight: 600; color: var(--accent); white-space: nowrap; }
 
-        /* Cards */
         .q-card {
             background: var(--card);
             border: 1px solid var(--border);
@@ -100,7 +97,6 @@
             font-weight: 300;
         }
 
-        /* Score 1-5 (Q1 only) */
         .score-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -120,13 +116,13 @@
             align-items: center;
             gap: 6px;
         }
-        .score-btn .score-num {
+        .score-btn .s-num {
             font-size: 22px;
             font-weight: 700;
             color: var(--muted);
             transition: color 0.18s;
         }
-        .score-btn .score-lbl {
+        .score-btn .s-lbl {
             font-size: 9px;
             color: var(--muted);
             text-transform: uppercase;
@@ -134,10 +130,10 @@
             line-height: 1.3;
         }
         .score-btn:hover { border-color: var(--accent); }
-        .score-btn:hover .score-num { color: var(--accent); }
+        .score-btn:hover .s-num { color: var(--accent); }
         .score-btn.selected { background: var(--accent-soft); border-color: var(--accent); }
-        .score-btn.selected .score-num { color: var(--accent); }
-        .score-btn.selected .score-lbl { color: #93c5fd; }
+        .score-btn.selected .s-num { color: var(--accent); }
+        .score-btn.selected .s-lbl { color: #93c5fd; }
 
         .score-legend {
             display: flex;
@@ -147,7 +143,6 @@
             padding: 0 2px;
         }
 
-        /* 3-level options */
         .opts-3 { display: grid; gap: 10px; }
         .opt3 {
             background: var(--bg);
@@ -181,10 +176,48 @@
         .opt3-content { flex: 1; }
         .opt3-title { font-size: 14px; font-weight: 600; margin-bottom: 2px; }
         .opt3-desc { font-size: 12px; color: var(--muted); font-weight: 300; line-height: 1.4; }
-
         .opt3.selected .opt3-title { color: var(--accent); }
 
-        /* Navigation */
+        .na-separator { margin-top: 14px; padding-top: 14px; border-top: 1px dashed rgba(37,51,80,0.8); }
+        .na-btn {
+            width: 100%;
+            background: transparent;
+            border: 1.5px dashed var(--border);
+            border-radius: 13px;
+            padding: 13px 18px;
+            cursor: pointer;
+            color: var(--muted);
+            font-size: 13px;
+            font-family: inherit;
+            font-weight: 400;
+            text-align: left;
+            transition: all 0.18s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .na-btn:hover { border-color: var(--muted); color: var(--text); }
+        .na-btn.selected {
+            border-color: var(--accent);
+            border-style: solid;
+            background: var(--accent-soft);
+            color: #93c5fd;
+            font-weight: 500;
+        }
+        .na-dot {
+            width: 20px; height: 20px;
+            border-radius: 50%;
+            border: 1.5px solid var(--border);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 10px; flex-shrink: 0;
+            transition: all 0.18s;
+        }
+        .na-btn.selected .na-dot {
+            border-color: var(--accent);
+            background: var(--accent);
+        }
+        .na-btn.selected .na-dot::after { content: '✓'; color: white; font-size: 9px; }
+
         .nav-row {
             display: flex;
             gap: 10px;
@@ -220,6 +253,96 @@
         .btn-next:hover:not(:disabled) { background: #3b6ef0; transform: translateY(-1px); }
         .btn-next:disabled { opacity: 0.25; cursor: not-allowed; transform: none; }
 
+        /* Email gate */
+        #email-gate { display: none; }
+        #email-gate.active { display: block; animation: fadeUp 0.35s ease-out; }
+
+        .gate-icon {
+            width: 64px; height: 64px;
+            border-radius: 50%;
+            background: var(--accent-soft);
+            border: 1px solid rgba(79,126,247,0.3);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 28px;
+        }
+        .gate-title {
+            font-family: 'DM Serif Display', serif;
+            font-size: 22px;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        .gate-sub {
+            font-size: 13px;
+            color: var(--muted);
+            text-align: center;
+            margin-bottom: 28px;
+            font-weight: 300;
+            line-height: 1.5;
+        }
+        .gate-input-wrap {
+            position: relative;
+            margin-bottom: 16px;
+        }
+        .gate-input-wrap svg {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
+            pointer-events: none;
+        }
+        .gate-input {
+            width: 100%;
+            padding: 16px 16px 16px 48px;
+            background: var(--bg);
+            border: 1.5px solid var(--border);
+            border-radius: 13px;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 15px;
+            transition: border-color 0.18s;
+        }
+        .gate-input:focus { outline: none; border-color: var(--accent); }
+        .gate-input::placeholder { color: var(--muted); }
+        .gate-error {
+            font-size: 12px;
+            color: var(--danger);
+            margin-top: -10px;
+            margin-bottom: 12px;
+            display: none;
+            padding-left: 4px;
+        }
+        .gate-error.visible { display: block; }
+
+        .btn-reveal {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--accent), #7dd3fc);
+            color: white;
+            border: none;
+            border-radius: 13px;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.18s, transform 0.18s;
+            letter-spacing: 0.2px;
+        }
+        .btn-reveal:hover:not(:disabled) { opacity: 0.92; transform: translateY(-1px); }
+        .btn-reveal:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
+
+        .gate-trust {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 16px;
+            font-size: 11px;
+            color: var(--muted);
+        }
+        .gate-trust svg { flex-shrink: 0; }
+
         /* Results */
         #results, #thanks-msg { display: none; }
 
@@ -232,21 +355,26 @@
 
         .score-ring {
             position: relative;
-            width: 110px;
-            height: 110px;
+            width: 120px;
+            height: 120px;
             margin: 0 auto 16px;
         }
         .score-ring svg { transform: rotate(-90deg); }
-        .ring-bg { fill: none; stroke: var(--border); stroke-width: 8; }
-        .ring-fill { fill: none; stroke: var(--accent); stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset 1s ease; }
-        .score-num-big {
+        .ring-bg { fill: none; stroke: var(--border); stroke-width: 7; }
+        .ring-fill { fill: none; stroke: var(--accent); stroke-width: 7; stroke-linecap: round; transition: stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1), stroke 0.4s; }
+        .score-center {
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            font-family: 'DM Serif Display', serif;
-            font-size: 28px;
-            color: var(--text);
+            text-align: center;
         }
+        .score-big {
+            font-family: 'DM Serif Display', serif;
+            font-size: 30px;
+            color: var(--text);
+            line-height: 1;
+        }
+        .score-of5 { font-size: 13px; color: var(--muted); margin-top: 2px; }
         .score-label-main { font-size: 14px; color: var(--muted); }
         .score-verdict {
             display: inline-block;
@@ -261,12 +389,12 @@
         .pillar-section h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 14px; font-weight: 600; }
 
         .pillar-row { display: flex; align-items: center; margin-bottom: 12px; }
-        .p-name { width: 110px; font-size: 12px; font-weight: 500; color: var(--muted); }
+        .p-name { width: 120px; font-size: 12px; font-weight: 500; color: var(--muted); }
         .p-bar-wrap { flex: 1; height: 6px; background: var(--border); border-radius: 10px; margin: 0 14px; overflow: hidden; }
-        .p-bar-fill { height: 100%; border-radius: 10px; transition: width 0.8s ease; }
-        .p-score { font-size: 12px; font-weight: 600; color: var(--text); min-width: 36px; text-align: right; }
+        .p-bar-fill { height: 100%; border-radius: 10px; transition: width 0.8s ease 0.2s; }
+        .p-score { font-size: 12px; font-weight: 600; color: var(--text); min-width: 44px; text-align: right; }
+        .p-na { font-size: 11px; color: var(--muted); font-style: italic; }
 
-        /* CTA */
         .cta-box {
             background: linear-gradient(135deg, rgba(79,126,247,0.12), rgba(52,211,153,0.06));
             border: 1px solid rgba(79,126,247,0.3);
@@ -308,7 +436,21 @@
             margin-top: 12px;
             transition: opacity 0.18s, transform 0.18s;
         }
-        .btn-submit:hover { opacity: 0.92; transform: translateY(-1px); }
+        .btn-submit:hover:not(:disabled) { opacity: 0.92; transform: translateY(-1px); }
+        .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        .form-error {
+            display: none;
+            background: rgba(248,113,113,0.1);
+            border: 1px solid rgba(248,113,113,0.3);
+            color: #fca5a5;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .form-error.visible { display: block; }
 
         .thanks-icon { font-size: 48px; margin-bottom: 16px; }
         .linkedin-btn {
@@ -327,13 +469,25 @@
         }
         .linkedin-btn:hover { background: #005e8e; }
 
+        .prefilled-notice {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: var(--success);
+            margin-bottom: 10px;
+            padding-left: 2px;
+        }
+
         @media (max-width: 480px) {
             .q-text { font-size: 18px; }
-            .score-grid { grid-template-columns: repeat(5, 1fr); gap: 5px; }
+            .score-grid { gap: 5px; }
             .score-btn { padding: 12px 4px 10px; }
-            .score-btn .score-num { font-size: 18px; }
+            .score-btn .s-num { font-size: 18px; }
             .form-grid { grid-template-columns: 1fr; }
             .form-grid input:last-child { grid-column: 1; }
+            .p-name { width: 90px; font-size: 11px; }
+            .gate-title { font-size: 19px; }
         }
     </style>
 </head>
@@ -347,23 +501,43 @@
 
     <div id="prog-area" class="prog-wrap">
         <span class="prog-label">Progression</span>
-        <div class="prog-bar"><div id="prog-fill" class="prog-fill" style="width:9%"></div></div>
-        <span class="prog-num" id="prog-txt">1 / 11</span>
+        <div class="prog-bar"><div id="prog-fill" class="prog-fill" style="width:8%"></div></div>
+        <span class="prog-num" id="prog-txt">1 / 12</span>
     </div>
 
     <div id="quiz-container"></div>
 
+    <!-- Email gate screen -->
+    <div id="email-gate" class="q-card">
+        <div class="gate-icon">📊</div>
+        <div class="gate-title">Vos résultats sont prêts</div>
+        <div class="gate-sub">Renseignez votre email professionnel pour découvrir votre score et recevoir une synthèse personnalisée.</div>
+        <div class="gate-input-wrap">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
+            <input type="email" class="gate-input" id="gate-email" placeholder="votre@email.com" autocomplete="email">
+        </div>
+        <div class="gate-error" id="gate-error">Veuillez entrer une adresse email valide.</div>
+        <button class="btn-reveal" id="btn-reveal" disabled>Découvrir mon diagnostic →</button>
+        <div class="gate-trust">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Confidentiel — aucun spam, aucune revente
+        </div>
+    </div>
+
     <div id="results" class="q-card">
         <div class="results-header">
             <div class="score-ring">
-                <svg viewBox="0 0 110 110" width="110" height="110">
-                    <circle class="ring-bg" cx="55" cy="55" r="46"/>
-                    <circle class="ring-fill" id="ring-arc" cx="55" cy="55" r="46"
-                        stroke-dasharray="289" stroke-dashoffset="289"/>
+                <svg viewBox="0 0 120 120" width="120" height="120">
+                    <circle class="ring-bg" cx="60" cy="60" r="50"/>
+                    <circle class="ring-fill" id="ring-arc" cx="60" cy="60" r="50"
+                        stroke-dasharray="314" stroke-dashoffset="314"/>
                 </svg>
-                <div class="score-num-big" id="score-display">—</div>
+                <div class="score-center">
+                    <div class="score-big" id="score-display">—</div>
+                    <div class="score-of5">/ 5</div>
+                </div>
             </div>
-            <div class="score-label-main">Score global <span id="score-max"></span></div>
+            <div class="score-label-main">Score global de solidité</div>
             <div class="score-verdict" id="score-verdict"></div>
         </div>
 
@@ -377,15 +551,22 @@
             <div class="cta-sub">Un échange de 15 min offert pour transformer ces résultats en plan d'action concret.</div>
 
             <form id="diag-form" action="https://formspree.io/f/mgorvroz" method="POST">
-                <input type="hidden" name="Score Total" id="form-total">
-                <input type="hidden" name="Details" id="form-details">
+                <input type="hidden" name="_subject" value="🔥 Nouveau Diag Flash">
+                <input type="hidden" name="Score_Global" id="form-total">
+                <input type="hidden" name="Detail_Piliers" id="form-pillars">
+                <input type="hidden" name="Detail_Reponses" id="form-details">
+                <div class="prefilled-notice" id="prefilled-notice" style="display:none;">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                    Email pré-rempli depuis votre saisie
+                </div>
                 <div class="form-grid">
                     <input type="text" name="Nom" placeholder="Prénom et nom" required>
                     <input type="tel" name="Tel" placeholder="Téléphone" required>
-                    <input type="email" name="Email" placeholder="Email professionnel" required>
+                    <input type="email" name="Email" id="form-email" placeholder="Email professionnel" required>
                 </div>
                 <textarea name="Besoin" placeholder="Votre défi prioritaire en ce moment ?" rows="2"></textarea>
-                <button type="submit" class="btn-submit">Réserver mon Diagnostic Flash →</button>
+                <button type="submit" class="btn-submit" id="submit-btn">Réserver mon Diagnostic Flash →</button>
+                <div class="form-error" id="form-error">Erreur d'envoi. Vérifiez votre connexion et réessayez.</div>
             </form>
         </div>
     </div>
@@ -394,7 +575,7 @@
         <div class="thanks-icon">✅</div>
         <h2 style="font-family:'DM Serif Display',serif; font-size:24px; margin-bottom:12px;">Diagnostic reçu !</h2>
         <p style="color:var(--muted); font-size:14px; line-height:1.6;">Matthieu prend connaissance de vos résultats et revient vers vous sous <strong style="color:var(--text)">24h</strong> pour convenir d'un créneau.</p>
-        <a href="https://www.linkedin.com/in/matthieu-remonnay/" target="_blank" class="linkedin-btn">
+        <a href="https://www.linkedin.com/in/matthieu-remonnay-5a441280/" target="_blank" class="linkedin-btn">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
             Suivre Matthieu sur LinkedIn
         </a>
@@ -402,349 +583,547 @@
 </div>
 
 <script>
-const questions = [
-    {
-        p: "Vision globale",
-        icon: "◎",
-        q: "Comment évaluez-vous la solidité globale de votre entreprise aujourd'hui ?",
-        sub: "Prenez en compte votre rentabilité, votre organisation et votre cap stratégique.",
-        type: "score5",
-        k: "glo"
-    },
-    {
-        p: "Finance",
-        icon: "◈",
-        q: "Maîtrisez-vous votre seuil de rentabilité mensuel ?",
-        sub: "Savez-vous exactement à partir de quel chiffre d'affaires vous êtes rentable ce mois-ci ?",
-        type: "opt3",
-        opts: [
-            { lbl: "Maîtrisé", desc: "Je connais mon seuil précis et je le suis régulièrement.", icon: "✓", cls: "icon-ok", v: 5 },
-            { lbl: "Partiellement", desc: "J'ai une idée approximative mais ce n'est pas formalisé.", icon: "~", cls: "icon-mid", v: 3 },
-            { lbl: "Non maîtrisé", desc: "Je ne dispose pas de cet indicateur à date.", icon: "✗", cls: "icon-no", v: 1 }
-        ],
-        k: "fin"
-    },
-    {
-        p: "Finance",
-        icon: "◈",
-        q: "Disposez-vous d'un prévisionnel de trésorerie fiable à 6 mois ?",
-        sub: "Êtes-vous en mesure d'anticiper vos flux entrants et sortants sur les 6 prochains mois ?",
-        type: "opt3",
-        opts: [
-            { lbl: "Oui, à jour", desc: "Mon prévisionnel est formalisé et mis à jour régulièrement.", icon: "✓", cls: "icon-ok", v: 5 },
-            { lbl: "En partie", desc: "J'ai un prévisionnel mais il n'est pas toujours fiable ou à jour.", icon: "~", cls: "icon-mid", v: 3 },
-            { lbl: "Non", desc: "Je pilote sans prévisionnel de trésorerie formalisé.", icon: "✗", cls: "icon-no", v: 1 }
-        ],
-        k: "fin"
-    },
-    {
-        p: "Finance",
-        icon: "◈",
-        q: "Votre processus de facturation et de recouvrement est-il fluide ?",
-        sub: "Les retards de paiement ou les relances chronophages impactent-ils votre trésorerie ?",
-        type: "opt3",
-        opts: [
-            { lbl: "Fluide", desc: "Facturation rapide, peu de retards, relances automatisées.", icon: "✓", cls: "icon-ok", v: 5 },
-            { lbl: "Perfectible", desc: "Des délais ou des oublis occasionnels créent des tensions.", icon: "~", cls: "icon-mid", v: 3 },
-            { lbl: "Problématique", desc: "Les retards de paiement sont un vrai sujet pour moi.", icon: "✗", cls: "icon-no", v: 1 }
-        ],
-        k: "fin"
-    },
-    {
-        p: "Commerce",
-        icon: "◇",
-        q: "Disposez-vous d'un flux régulier de prospects qualifiés ?",
-        sub: "Vos actions commerciales génèrent-elles des opportunités prévisibles et régulières ?",
-        type: "opt3",
-        opts: [
-            { lbl: "Oui, régulier", desc: "J'ai un pipeline commercial alimenté de façon continue.", icon: "✓", cls: "icon-ok", v: 5 },
-            { lbl: "Irrégulier", desc: "Des périodes creuses alternent avec des pics d'activité.", icon: "~", cls: "icon-mid", v: 3 },
-            { lbl: "Non structuré", desc: "Je dépends du bouche-à-oreille ou de l'opportunisme.", icon: "✗", cls: "icon-no", v: 1 }
-        ],
-        k: "com"
-    },
-    {
-        p: "Commerce",
-        icon: "◇",
-        q: "Connaissez-vous et suivez-vous votre taux de conversion ?",
-        sub: "Savez-vous combien de prospects deviennent clients, et ce que cela vous coûte ?",
-        type: "opt3",
-        opts: [
-            { lbl: "Suivi en place", desc: "Je connais mon taux et j'ai des leviers pour l'améliorer.", icon: "✓", cls: "icon-ok", v: 5 },
-            { lbl: "Approximatif", desc: "J'ai une idée globale mais sans indicateur précis.", icon: "~", cls: "icon-mid", v: 3 },
-            { lbl: "Pas suivi", desc: "Je n'ai pas de visibilité sur cet indicateur.", icon: "✗", cls: "icon-no", v: 1 }
-        ],
-        k: "com"
-    },
-    {
-        p: "Management",
-        icon: "◉",
-        q: "Votre équipe est-elle autonome en votre absence ?",
-        sub: "Une absence de quelques jours crée-t-elle des blocages dans votre organisation ?",
-        type: "opt3",
-        opts: [
-            { lbl: "Autonomie réelle", desc: "L'activité tourne sans moi sur les sujets courants.", icon: "✓", cls: "icon-ok", v: 5 },
-            { lbl: "Partiellement", desc: "Certains sujets me reviennent systématiquement.", icon: "~", cls: "icon-mid", v: 3 },
-            { lbl: "Dépendant", desc: "Mon absence génère des blocages importants.", icon: "✗", cls: "icon-no", v: 1 }
-        ],
-        k: "man"
-    },
-    {
-        p: "Management",
-        icon: "◉",
-        q: "Déléguez-vous efficacement, sans devoir tout revérifier ?",
-        sub: "La délégation est-elle réelle ou êtes-vous régulièrement le point de contrôle final ?",
-        type: "opt3",
-        opts: [
-            { lbl: "Délégation réelle", desc: "Je confie et fais confiance, avec peu de retours nécessaires.", icon: "✓", cls: "icon-ok", v: 5 },
-            { lbl: "En progrès", desc: "Je délègue mais j'ai tendance à vérifier par réflexe.", icon: "~", cls: "icon-mid", v: 3 },
-            { lbl: "Difficile", desc: "Je reste le point de passage obligé sur la plupart des sujets.", icon: "✗", cls: "icon-no", v: 1 }
-        ],
-        k: "man"
-    },
-    {
-        p: "Process & Organisation",
-        icon: "▣",
-        q: "Vos processus clés sont-ils formalisés et partagés ?",
-        sub: "Vos méthodes de travail sont-elles documentées et accessibles à votre équipe ?",
-        type: "opt3",
-        opts: [
-            { lbl: "Formalisés", desc: "Mes process sont écrits, à jour et utilisés au quotidien.", icon: "✓", cls: "icon-ok", v: 5 },
-            { lbl: "En partie", desc: "Certains existent mais l'ensemble n'est pas structuré.", icon: "~", cls: "icon-mid", v: 3 },
-            { lbl: "Non formalisés", desc: "Tout repose sur les personnes, pas sur des processus écrits.", icon: "✗", cls: "icon-no", v: 1 }
-        ],
-        k: "org"
-    },
-    {
-        p: "Process & Organisation",
-        icon: "▣",
-        q: "Subissez-vous encore beaucoup d'urgences au quotidien ?",
-        sub: "Les imprévus et sollicitations urgentes fragmentent-ils votre agenda de dirigeant ?",
-        type: "opt3",
-        opts: [
-            { lbl: "Maîtrisé", desc: "Les urgences sont rares, mon agenda reste structuré.", icon: "✓", cls: "icon-ok", v: 5 },
-            { lbl: "Fréquent", desc: "Les urgences perturbent régulièrement mon organisation.", icon: "~", cls: "icon-mid", v: 3 },
-            { lbl: "Permanent", desc: "Mon quotidien est dominé par la gestion des urgences.", icon: "✗", cls: "icon-no", v: 1 }
-        ],
-        k: "org"
-    },
-    {
-        p: "Stratégie",
-        icon: "△",
-        q: "Avez-vous une vision claire et chiffrée à 12 mois ?",
-        sub: "Votre cap est-il formalisé avec des objectifs précis, partagés avec vos équipes ?",
-        type: "opt3",
-        opts: [
-            { lbl: "Vision claire", desc: "Objectifs chiffrés, cap défini, équipe alignée.", icon: "✓", cls: "icon-ok", v: 5 },
-            { lbl: "En construction", desc: "Les grandes lignes sont là mais ce n'est pas encore formalisé.", icon: "~", cls: "icon-mid", v: 3 },
-            { lbl: "Pas formalisée", desc: "Je pilote au jour le jour sans feuille de route précise.", icon: "✗", cls: "icon-no", v: 1 }
-        ],
-        k: "str"
-    }
-];
+(function() {
+    "use strict";
 
-const pillarMeta = {
-    glo: { name: "Vision globale", max: 5,  color: "#818cf8" },
-    fin: { name: "Finance",        max: 15, color: "#34d399" },
-    com: { name: "Commerce",       max: 10, color: "#60a5fa" },
-    man: { name: "Management",     max: 10, color: "#f472b6" },
-    org: { name: "Processus",      max: 10, color: "#fbbf24" },
-    str: { name: "Stratégie",      max: 5,  color: "#f87171" }
-};
+    var questions = [
+        {
+            p: "Vision globale", icon: "◎",
+            q: "Comment évaluez-vous la solidité globale de votre entreprise aujourd'hui ?",
+            sub: "Prenez en compte votre rentabilité, votre organisation et votre cap stratégique.",
+            type: "score5", k: "glo"
+        },
+        {
+            p: "Commerce", icon: "◇",
+            q: "Disposez-vous d'une véritable force commerciale structurée ?",
+            sub: "Équipe dédiée, outils de prospection, process de vente formalisés.",
+            type: "opt3",
+            opts: [
+                { lbl: "Structurée", desc: "Équipe, outils et méthode en place pour développer le CA.", icon: "✓", cls: "icon-ok", v: 5 },
+                { lbl: "En construction", desc: "Des actions existent mais sans vrai process commercial dédié.", icon: "~", cls: "icon-mid", v: 3 },
+                { lbl: "Inexistante", desc: "Le développement commercial repose sur moi seul ou le hasard.", icon: "✗", cls: "icon-no", v: 1 }
+            ],
+            k: "com"
+        },
+        {
+            p: "Finance", icon: "◈",
+            q: "Maîtrisez-vous votre seuil de rentabilité mensuel ?",
+            sub: "Savez-vous exactement à partir de quel chiffre d'affaires vous êtes rentable ce mois-ci ?",
+            type: "opt3",
+            opts: [
+                { lbl: "Maîtrisé", desc: "Je connais mon seuil précis et je le suis régulièrement.", icon: "✓", cls: "icon-ok", v: 5 },
+                { lbl: "Partiellement", desc: "J'ai une idée approximative mais ce n'est pas formalisé.", icon: "~", cls: "icon-mid", v: 3 },
+                { lbl: "Non maîtrisé", desc: "Je ne dispose pas de cet indicateur à date.", icon: "✗", cls: "icon-no", v: 1 }
+            ],
+            k: "fin"
+        },
+        {
+            p: "Finance", icon: "◈",
+            q: "Disposez-vous d'un prévisionnel de trésorerie fiable à 6 mois ?",
+            sub: "Êtes-vous en mesure d'anticiper vos flux entrants et sortants sur les 6 prochains mois ?",
+            type: "opt3",
+            opts: [
+                { lbl: "Oui, à jour", desc: "Mon prévisionnel est formalisé et mis à jour régulièrement.", icon: "✓", cls: "icon-ok", v: 5 },
+                { lbl: "En partie", desc: "J'ai un prévisionnel mais il n'est pas toujours fiable ou à jour.", icon: "~", cls: "icon-mid", v: 3 },
+                { lbl: "Non", desc: "Je pilote sans prévisionnel de trésorerie formalisé.", icon: "✗", cls: "icon-no", v: 1 }
+            ],
+            k: "fin"
+        },
+        {
+            p: "Finance", icon: "◈",
+            q: "Votre processus de facturation et de recouvrement est-il fluide ?",
+            sub: "Les retards de paiement ou les relances chronophages impactent-ils votre trésorerie ?",
+            type: "opt3",
+            opts: [
+                { lbl: "Fluide", desc: "Facturation rapide, peu de retards, relances automatisées.", icon: "✓", cls: "icon-ok", v: 5 },
+                { lbl: "Perfectible", desc: "Des délais ou des oublis occasionnels créent des tensions.", icon: "~", cls: "icon-mid", v: 3 },
+                { lbl: "Problématique", desc: "Les retards de paiement sont un vrai sujet pour moi.", icon: "✗", cls: "icon-no", v: 1 }
+            ],
+            k: "fin"
+        },
+        {
+            p: "Commerce", icon: "◇",
+            q: "Disposez-vous d'un flux régulier de prospects qualifiés ?",
+            sub: "Vos actions commerciales génèrent-elles des opportunités prévisibles et régulières ?",
+            type: "opt3",
+            opts: [
+                { lbl: "Oui, régulier", desc: "J'ai un pipeline commercial alimenté de façon continue.", icon: "✓", cls: "icon-ok", v: 5 },
+                { lbl: "Irrégulier", desc: "Des périodes creuses alternent avec des pics d'activité.", icon: "~", cls: "icon-mid", v: 3 },
+                { lbl: "Non structuré", desc: "Je dépends du bouche-à-oreille ou de l'opportunisme.", icon: "✗", cls: "icon-no", v: 1 }
+            ],
+            k: "com"
+        },
+        {
+            p: "Commerce", icon: "◇",
+            q: "Connaissez-vous et suivez-vous votre taux de conversion ?",
+            sub: "Savez-vous combien de prospects deviennent clients, et ce que cela vous coûte ?",
+            type: "opt3",
+            opts: [
+                { lbl: "Suivi en place", desc: "Je connais mon taux et j'ai des leviers pour l'améliorer.", icon: "✓", cls: "icon-ok", v: 5 },
+                { lbl: "Approximatif", desc: "J'ai une idée globale mais sans indicateur précis.", icon: "~", cls: "icon-mid", v: 3 },
+                { lbl: "Pas suivi", desc: "Je n'ai pas de visibilité sur cet indicateur.", icon: "✗", cls: "icon-no", v: 1 }
+            ],
+            k: "com"
+        },
+        {
+            p: "Management", icon: "◉",
+            q: "Votre équipe est-elle autonome en votre absence ?",
+            sub: "Une absence de quelques jours crée-t-elle des blocages dans votre organisation ?",
+            type: "opt3",
+            hasNA: true,
+            naLabel: "Non concerné — Je travaille seul(e), pas d'équipe",
+            opts: [
+                { lbl: "Autonomie réelle", desc: "L'activité tourne sans moi sur les sujets courants.", icon: "✓", cls: "icon-ok", v: 5 },
+                { lbl: "Partiellement", desc: "Certains sujets me reviennent systématiquement.", icon: "~", cls: "icon-mid", v: 3 },
+                { lbl: "Dépendant", desc: "Mon absence génère des blocages importants.", icon: "✗", cls: "icon-no", v: 1 }
+            ],
+            k: "man"
+        },
+        {
+            p: "Management", icon: "◉",
+            q: "Déléguez-vous efficacement, sans devoir tout revérifier ?",
+            sub: "La délégation est-elle réelle ou êtes-vous régulièrement le point de contrôle final ?",
+            type: "opt3",
+            hasNA: true,
+            naLabel: "Non concerné — Je n'ai personne à qui déléguer",
+            opts: [
+                { lbl: "Délégation réelle", desc: "Je confie et fais confiance, avec peu de retours nécessaires.", icon: "✓", cls: "icon-ok", v: 5 },
+                { lbl: "En progrès", desc: "Je délègue mais j'ai tendance à vérifier par réflexe.", icon: "~", cls: "icon-mid", v: 3 },
+                { lbl: "Difficile", desc: "Je reste le point de passage obligé sur la plupart des sujets.", icon: "✗", cls: "icon-no", v: 1 }
+            ],
+            k: "man"
+        },
+        {
+            p: "Process & Organisation", icon: "▣",
+            q: "Vos processus clés sont-ils formalisés et partagés ?",
+            sub: "Vos méthodes de travail sont-elles documentées et accessibles ?",
+            type: "opt3",
+            opts: [
+                { lbl: "Formalisés", desc: "Mes process sont écrits, à jour et utilisés au quotidien.", icon: "✓", cls: "icon-ok", v: 5 },
+                { lbl: "En partie", desc: "Certains existent mais l'ensemble n'est pas structuré.", icon: "~", cls: "icon-mid", v: 3 },
+                { lbl: "Non formalisés", desc: "Tout repose sur les personnes, pas sur des processus écrits.", icon: "✗", cls: "icon-no", v: 1 }
+            ],
+            k: "org"
+        },
+        {
+            p: "Process & Organisation", icon: "▣",
+            q: "Subissez-vous encore beaucoup d'urgences au quotidien ?",
+            sub: "Les imprévus et sollicitations urgentes fragmentent-ils votre agenda de dirigeant ?",
+            type: "opt3",
+            opts: [
+                { lbl: "Maîtrisé", desc: "Les urgences sont rares, mon agenda reste structuré.", icon: "✓", cls: "icon-ok", v: 5 },
+                { lbl: "Fréquent", desc: "Les urgences perturbent régulièrement mon organisation.", icon: "~", cls: "icon-mid", v: 3 },
+                { lbl: "Permanent", desc: "Mon quotidien est dominé par la gestion des urgences.", icon: "✗", cls: "icon-no", v: 1 }
+            ],
+            k: "org"
+        },
+        {
+            p: "Stratégie", icon: "△",
+            q: "Avez-vous une vision claire et chiffrée à 12 mois ?",
+            sub: "Votre cap est-il formalisé avec des objectifs précis, partagés avec vos équipes ?",
+            type: "opt3",
+            opts: [
+                { lbl: "Vision claire", desc: "Objectifs chiffrés, cap défini, équipe alignée.", icon: "✓", cls: "icon-ok", v: 5 },
+                { lbl: "En construction", desc: "Les grandes lignes sont là mais ce n'est pas encore formalisé.", icon: "~", cls: "icon-mid", v: 3 },
+                { lbl: "Pas formalisée", desc: "Je pilote au jour le jour sans feuille de route précise.", icon: "✗", cls: "icon-no", v: 1 }
+            ],
+            k: "str"
+        }
+    ];
 
-let current = 0;
-let answers = {}; // idx -> {v, k}
+    var TOTAL_Q = questions.length;
 
-function init() {
-    const container = document.getElementById('quiz-container');
-    questions.forEach((q, i) => {
-        const div = document.createElement('div');
-        div.className = `q-card${i === 0 ? ' active' : ''}`;
-        div.id = `qc-${i}`;
-        div.innerHTML = buildCard(q, i);
-        container.appendChild(div);
-    });
-}
+    var pillarMeta = {
+        glo: { name: "Vision globale",  color: "#818cf8" },
+        com: { name: "Commerce",        color: "#60a5fa" },
+        fin: { name: "Finance",         color: "#34d399" },
+        man: { name: "Management",      color: "#f472b6" },
+        org: { name: "Processus",       color: "#fbbf24" },
+        str: { name: "Stratégie",       color: "#f87171" }
+    };
+    var pillarOrder = ["glo", "com", "fin", "man", "org", "str"];
 
-function buildCard(q, i) {
-    const backBtn = i > 0
-        ? `<button class="btn btn-back" onclick="step(-1)">← Retour</button>`
-        : '';
-    const nextLabel = i === questions.length - 1 ? 'Voir mes résultats →' : 'Question suivante →';
+    var current = 0;
+    var answers = {};
+    var collectedEmail = "";
 
-    let inner = '';
-
-    if (q.type === 'score5') {
-        inner = `
-        <div class="score-grid">
-            ${[1,2,3,4,5].map(v => {
-                const labels = { 1: 'Fragile', 2: 'Faible', 3: 'Correct', 4: 'Solide', 5: 'Excellent' };
-                return `<button class="score-btn" onclick="setAns(${i}, ${v}, '${q.k}')">
-                    <span class="score-num">${v}</span>
-                    <span class="score-lbl">${labels[v]}</span>
-                </button>`;
-            }).join('')}
-        </div>
-        <div class="score-legend"><span>Très fragile</span><span>Excellent</span></div>`;
-    } else {
-        inner = `<div class="opts-3">
-            ${q.opts.map((o, oi) => `
-            <div class="opt3" onclick="setAns(${i}, ${o.v}, '${q.k}', this)">
-                <div class="opt3-icon ${o.cls}">${o.icon}</div>
-                <div class="opt3-content">
-                    <div class="opt3-title">${o.lbl}</div>
-                    <div class="opt3-desc">${o.desc}</div>
-                </div>
-            </div>`).join('')}
-        </div>`;
+    function init() {
+        var container = document.getElementById("quiz-container");
+        for (var i = 0; i < questions.length; i++) {
+            var div = document.createElement("div");
+            div.className = "q-card" + (i === 0 ? " active" : "");
+            div.id = "qc-" + i;
+            div.innerHTML = buildCard(questions[i], i);
+            container.appendChild(div);
+        }
+        bindEvents();
     }
 
-    return `
-        <div class="pillar-badge">${q.icon} ${q.p}</div>
-        <div class="q-text">${q.q}</div>
-        ${q.sub ? `<div class="q-sub">${q.sub}</div>` : ''}
-        ${inner}
-        <div class="nav-row">
-            ${backBtn}
-            <button class="btn btn-next" id="bn-${i}" disabled onclick="step(1)">${nextLabel}</button>
-        </div>`;
-}
+    function buildCard(q, i) {
+        var backBtn = i > 0
+            ? '<button class="btn btn-back" data-action="prev">← Retour</button>'
+            : "";
+        var nextLabel = i === questions.length - 1 ? "Voir mes résultats →" : "Question suivante →";
+        var inner = "";
 
-window.setAns = (idx, val, key, el) => {
-    answers[idx] = { v: val, k: key };
+        if (q.type === "score5") {
+            var labels = { 1: "Fragile", 2: "Faible", 3: "Correct", 4: "Solide", 5: "Excellent" };
+            inner = '<div class="score-grid">';
+            for (var v = 1; v <= 5; v++) {
+                inner += '<div class="score-btn" data-val="' + v + '" data-key="' + q.k + '" data-idx="' + i + '">' +
+                    '<span class="s-num">' + v + '</span>' +
+                    '<span class="s-lbl">' + labels[v] + '</span>' +
+                    '</div>';
+            }
+            inner += '</div><div class="score-legend"><span>Très fragile</span><span>Excellent</span></div>';
+        } else {
+            inner = '<div class="opts-3">';
+            for (var oi = 0; oi < q.opts.length; oi++) {
+                var o = q.opts[oi];
+                inner += '<div class="opt3" data-val="' + o.v + '" data-key="' + q.k + '" data-idx="' + i + '">' +
+                    '<div class="opt3-icon ' + o.cls + '">' + o.icon + '</div>' +
+                    '<div class="opt3-content">' +
+                    '<div class="opt3-title">' + o.lbl + '</div>' +
+                    '<div class="opt3-desc">' + o.desc + '</div>' +
+                    '</div></div>';
+            }
+            inner += '</div>';
 
-    const card = document.getElementById(`qc-${idx}`);
-    const q = questions[idx];
+            if (q.hasNA) {
+                inner += '<div class="na-separator">' +
+                    '<button type="button" class="na-btn" data-key="' + q.k + '" data-idx="' + i + '">' +
+                    '<span class="na-dot"></span>' +
+                    '<span>' + q.naLabel + '</span>' +
+                    '</button></div>';
+            }
+        }
 
-    if (q.type === 'score5') {
-        card.querySelectorAll('.score-btn').forEach((btn, bi) => {
-            btn.classList.toggle('selected', bi + 1 === val);
+        return '<div class="pillar-badge">' + q.icon + ' ' + q.p + '</div>' +
+            '<div class="q-text">' + q.q + '</div>' +
+            (q.sub ? '<div class="q-sub">' + q.sub + '</div>' : '') +
+            inner +
+            '<div class="nav-row">' + backBtn +
+            '<button class="btn btn-next" id="bn-' + i + '" disabled data-action="next">' + nextLabel + '</button>' +
+            '</div>';
+    }
+
+    function isValidEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function bindEvents() {
+        document.querySelectorAll(".score-btn").forEach(function(btn) {
+            btn.addEventListener("click", function() {
+                var idx = parseInt(this.getAttribute("data-idx"));
+                var val = parseInt(this.getAttribute("data-val"));
+                var key = this.getAttribute("data-key");
+                setAnswer(idx, val, key, false);
+                var card = document.getElementById("qc-" + idx);
+                card.querySelectorAll(".score-btn").forEach(function(b, bi) {
+                    b.classList.toggle("selected", bi + 1 === val);
+                });
+            });
         });
-    } else {
-        card.querySelectorAll('.opt3').forEach(o => o.classList.remove('selected'));
-        if (el) el.classList.add('selected');
+
+        document.querySelectorAll(".opt3").forEach(function(opt) {
+            opt.addEventListener("click", function() {
+                var idx = parseInt(this.getAttribute("data-idx"));
+                var val = parseInt(this.getAttribute("data-val"));
+                var key = this.getAttribute("data-key");
+                setAnswer(idx, val, key, false);
+                var card = document.getElementById("qc-" + idx);
+                card.querySelectorAll(".opt3").forEach(function(o) { o.classList.remove("selected"); });
+                this.classList.add("selected");
+                var naBtn = card.querySelector(".na-btn");
+                if (naBtn) naBtn.classList.remove("selected");
+            });
+        });
+
+        document.querySelectorAll(".na-btn").forEach(function(btn) {
+            btn.addEventListener("click", function() {
+                var idx = parseInt(this.getAttribute("data-idx"));
+                var key = this.getAttribute("data-key");
+                setAnswer(idx, 0, key, true);
+                var card = document.getElementById("qc-" + idx);
+                card.querySelectorAll(".opt3").forEach(function(o) { o.classList.remove("selected"); });
+                this.classList.add("selected");
+            });
+        });
+
+        document.querySelectorAll("[data-action='next']").forEach(function(btn) {
+            btn.addEventListener("click", function() {
+                if (current === questions.length - 1) {
+                    showEmailGate();
+                } else {
+                    goTo(current + 1);
+                }
+            });
+        });
+        document.querySelectorAll("[data-action='prev']").forEach(function(btn) {
+            btn.addEventListener("click", function() {
+                goTo(current - 1);
+            });
+        });
+
+        // Email gate
+        var gateInput = document.getElementById("gate-email");
+        var btnReveal = document.getElementById("btn-reveal");
+        var gateError = document.getElementById("gate-error");
+
+        gateInput.addEventListener("input", function() {
+            var valid = isValidEmail(this.value.trim());
+            btnReveal.disabled = !valid;
+            if (valid) gateError.classList.remove("visible");
+        });
+
+        gateInput.addEventListener("keydown", function(e) {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                if (!btnReveal.disabled) btnReveal.click();
+            }
+        });
+
+        btnReveal.addEventListener("click", function() {
+            var email = gateInput.value.trim();
+            if (!isValidEmail(email)) {
+                gateError.classList.add("visible");
+                return;
+            }
+            collectedEmail = email;
+            document.getElementById("email-gate").classList.remove("active");
+            showResults();
+        });
+
+        // Form
+        document.getElementById("diag-form").addEventListener("submit", handleSubmit);
     }
 
-    document.getElementById(`bn-${idx}`).disabled = false;
-};
-
-window.step = (dir) => {
-    const nextIdx = current + dir;
-    if (nextIdx < 0 || nextIdx > questions.length) return;
-
-    if (dir > 0 && current === questions.length - 1) {
-        showResults();
-        return;
+    function setAnswer(idx, val, key, isNA) {
+        answers[idx] = { v: val, k: key, na: isNA };
+        document.getElementById("bn-" + idx).disabled = false;
     }
 
-    document.getElementById(`qc-${current}`).classList.remove('active');
-    current = nextIdx;
-    document.getElementById(`qc-${current}`).classList.add('active');
-    updateProg();
+    function goTo(nextIdx) {
+        if (nextIdx < 0 || nextIdx >= TOTAL_Q) return;
+        document.getElementById("qc-" + current).classList.remove("active");
+        current = nextIdx;
+        document.getElementById("qc-" + current).classList.add("active");
+        updateProg();
+        restoreState(current);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
 
-    // Restore selection state if going back
-    if (answers[current]) {
-        const q = questions[current];
-        const card = document.getElementById(`qc-${current}`);
-        const saved = answers[current];
-        document.getElementById(`bn-${current}`).disabled = false;
-        if (q.type === 'score5') {
-            card.querySelectorAll('.score-btn').forEach((btn, bi) => {
-                btn.classList.toggle('selected', bi + 1 === saved.v);
+    function restoreState(idx) {
+        if (!answers[idx]) return;
+        var saved = answers[idx];
+        var q = questions[idx];
+        var card = document.getElementById("qc-" + idx);
+        document.getElementById("bn-" + idx).disabled = false;
+
+        if (saved.na) {
+            card.querySelectorAll(".opt3").forEach(function(o) { o.classList.remove("selected"); });
+            var naBtn = card.querySelector(".na-btn");
+            if (naBtn) naBtn.classList.add("selected");
+            return;
+        }
+
+        if (q.type === "score5") {
+            card.querySelectorAll(".score-btn").forEach(function(b, bi) {
+                b.classList.toggle("selected", bi + 1 === saved.v);
             });
         } else {
-            const opts = card.querySelectorAll('.opt3');
-            opts.forEach(o => o.classList.remove('selected'));
-            // match by value
-            q.opts.forEach((opt, oi) => {
-                if (opt.v === saved.v) opts[oi] && opts[oi].classList.add('selected');
+            card.querySelectorAll(".opt3").forEach(function(o) { o.classList.remove("selected"); });
+            var naBtn2 = card.querySelector(".na-btn");
+            if (naBtn2) naBtn2.classList.remove("selected");
+            q.opts.forEach(function(opt, oi) {
+                if (opt.v === saved.v) {
+                    var opts = card.querySelectorAll(".opt3");
+                    if (opts[oi]) opts[oi].classList.add("selected");
+                }
             });
         }
     }
-};
 
-function updateProg() {
-    const pct = ((current + 1) / questions.length) * 100;
-    document.getElementById('prog-fill').style.width = pct + '%';
-    document.getElementById('prog-txt').innerText = `${current + 1} / ${questions.length}`;
-}
-
-function showResults() {
-    document.getElementById('quiz-container').style.display = 'none';
-    document.getElementById('prog-area').style.display = 'none';
-    const resultsEl = document.getElementById('results');
-    resultsEl.style.display = 'block';
-
-    let total = 0;
-    let pils = { glo: 0, fin: 0, com: 0, man: 0, org: 0, str: 0 };
-
-    Object.values(answers).forEach(a => {
-        total += a.v;
-        pils[a.k] += a.v;
-    });
-
-    const maxTotal = 55;
-    const pct = Math.round((total / maxTotal) * 100);
-
-    // Ring animation
-    const circumference = 289;
-    const offset = circumference - (pct / 100) * circumference;
-    setTimeout(() => {
-        document.getElementById('ring-arc').style.strokeDashoffset = offset;
-    }, 100);
-
-    document.getElementById('score-display').innerText = total;
-    document.getElementById('score-max').innerText = `/ ${maxTotal}`;
-
-    const verdict = document.getElementById('score-verdict');
-    if (pct >= 75) {
-        verdict.style.cssText = 'background:rgba(52,211,153,0.15); color:#34d399; border:1px solid rgba(52,211,153,0.3)';
-        verdict.innerText = '✦ Structure solide — optimisation possible';
-    } else if (pct >= 50) {
-        verdict.style.cssText = 'background:rgba(251,191,36,0.15); color:#fbbf24; border:1px solid rgba(251,191,36,0.3)';
-        verdict.innerText = '⚡ Potentiel réel — des leviers à activer';
-    } else {
-        verdict.style.cssText = 'background:rgba(248,113,113,0.15); color:#f87171; border:1px solid rgba(248,113,113,0.3)';
-        verdict.innerText = '⚠ Points critiques — action recommandée';
+    function updateProg() {
+        var pct = ((current + 1) / TOTAL_Q) * 100;
+        document.getElementById("prog-fill").style.width = pct + "%";
+        document.getElementById("prog-txt").textContent = (current + 1) + " / " + TOTAL_Q;
     }
 
-    // Pillar bars
-    let html = '';
-    for (const [k, meta] of Object.entries(pillarMeta)) {
-        const score = pils[k];
-        const barPct = Math.round((score / meta.max) * 100);
-        html += `
-            <div class="pillar-row">
-                <span class="p-name">${meta.name}</span>
-                <div class="p-bar-wrap">
-                    <div class="p-bar-fill" style="width:0%; background:${meta.color}" data-target="${barPct}"></div>
-                </div>
-                <span class="p-score">${score}/${meta.max}</span>
-            </div>`;
+    function showEmailGate() {
+        document.getElementById("quiz-container").style.display = "none";
+        document.getElementById("prog-area").style.display = "none";
+        var gate = document.getElementById("email-gate");
+        gate.classList.add("active");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        setTimeout(function() {
+            document.getElementById("gate-email").focus();
+        }, 400);
     }
-    document.getElementById('pillar-details').innerHTML = html;
 
-    setTimeout(() => {
-        document.querySelectorAll('.p-bar-fill').forEach(el => {
-            el.style.width = el.dataset.target + '%';
+    function showResults() {
+        document.getElementById("email-gate").style.display = "none";
+
+        var pillarSums = {};
+        var pillarCounts = {};
+        var detailText = "";
+
+        for (var i = 0; i < TOTAL_Q; i++) {
+            var a = answers[i];
+            if (!a) continue;
+            var q = questions[i];
+
+            if (a.na) {
+                detailText += "Q" + (i + 1) + " (" + q.p + "): Non concerné | ";
+                continue;
+            }
+
+            detailText += "Q" + (i + 1) + " (" + q.p + "): " + a.v + "/5 | ";
+
+            if (!pillarSums[a.k]) { pillarSums[a.k] = 0; pillarCounts[a.k] = 0; }
+            pillarSums[a.k] += a.v;
+            pillarCounts[a.k]++;
+        }
+
+        var pillarAvgs = {};
+        var globalSum = 0;
+        var globalCount = 0;
+
+        for (var pi = 0; pi < pillarOrder.length; pi++) {
+            var k = pillarOrder[pi];
+            if (pillarCounts[k] && pillarCounts[k] > 0) {
+                pillarAvgs[k] = pillarSums[k] / pillarCounts[k];
+                globalSum += pillarSums[k];
+                globalCount += pillarCounts[k];
+            } else {
+                pillarAvgs[k] = null;
+            }
+        }
+
+        var globalAvg = globalCount > 0 ? globalSum / globalCount : 0;
+        var globalPct = (globalAvg / 5) * 100;
+
+        var circumference = 314;
+        var offset = circumference - (globalPct / 100) * circumference;
+        var ringEl = document.getElementById("ring-arc");
+
+        if (globalAvg >= 3.8) {
+            ringEl.style.stroke = "#34d399";
+        } else if (globalAvg >= 2.5) {
+            ringEl.style.stroke = "#fbbf24";
+        } else {
+            ringEl.style.stroke = "#f87171";
+        }
+
+        setTimeout(function() {
+            ringEl.style.strokeDashoffset = offset;
+        }, 150);
+
+        document.getElementById("score-display").textContent = globalAvg.toFixed(1);
+
+        var verdict = document.getElementById("score-verdict");
+        if (globalAvg >= 3.8) {
+            verdict.style.cssText = "background:rgba(52,211,153,0.15); color:#34d399; border:1px solid rgba(52,211,153,0.3)";
+            verdict.textContent = "✦ Structure solide — optimisation possible";
+        } else if (globalAvg >= 2.5) {
+            verdict.style.cssText = "background:rgba(251,191,36,0.15); color:#fbbf24; border:1px solid rgba(251,191,36,0.3)";
+            verdict.textContent = "⚡ Potentiel réel — des leviers à activer";
+        } else {
+            verdict.style.cssText = "background:rgba(248,113,113,0.15); color:#f87171; border:1px solid rgba(248,113,113,0.3)";
+            verdict.textContent = "⚠ Points critiques — action recommandée";
+        }
+
+        var html = "";
+        var pillarText = "";
+
+        for (var pj = 0; pj < pillarOrder.length; pj++) {
+            var pk = pillarOrder[pj];
+            var meta = pillarMeta[pk];
+            var avg = pillarAvgs[pk];
+
+            if (avg === null) {
+                html += '<div class="pillar-row">' +
+                    '<span class="p-name">' + meta.name + '</span>' +
+                    '<div class="p-bar-wrap"><div class="p-bar-fill" style="width:0%"></div></div>' +
+                    '<span class="p-score p-na">N/A</span>' +
+                    '</div>';
+                pillarText += meta.name + ": N/A | ";
+            } else {
+                var barPct = Math.round((avg / 5) * 100);
+                var barColor = meta.color;
+                if (avg < 2.5) barColor = "#f87171";
+                else if (avg < 3.5) barColor = "#fbbf24";
+
+                html += '<div class="pillar-row">' +
+                    '<span class="p-name">' + meta.name + '</span>' +
+                    '<div class="p-bar-wrap">' +
+                    '<div class="p-bar-fill" style="width:0%; background:' + barColor + '" data-target="' + barPct + '"></div>' +
+                    '</div>' +
+                    '<span class="p-score">' + avg.toFixed(1) + ' / 5</span>' +
+                    '</div>';
+                pillarText += meta.name + ": " + avg.toFixed(1) + "/5 | ";
+            }
+        }
+
+        document.getElementById("pillar-details").innerHTML = html;
+
+        setTimeout(function() {
+            document.querySelectorAll(".p-bar-fill[data-target]").forEach(function(el) {
+                el.style.width = el.getAttribute("data-target") + "%";
+            });
+        }, 200);
+
+        // Pre-fill email in the CTA form
+        var formEmailField = document.getElementById("form-email");
+        if (collectedEmail) {
+            formEmailField.value = collectedEmail;
+            document.getElementById("prefilled-notice").style.display = "flex";
+        }
+
+        document.getElementById("form-total").value = globalAvg.toFixed(1) + " / 5 (" + Math.round(globalPct) + "%)";
+        document.getElementById("form-pillars").value = pillarText;
+        document.getElementById("form-details").value = "Email: " + collectedEmail + " | " + detailText;
+
+        document.getElementById("results").style.display = "block";
+        document.getElementById("results").classList.add("active");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        var form = e.target;
+        var btn = document.getElementById("submit-btn");
+        var errorEl = document.getElementById("form-error");
+        errorEl.classList.remove("visible");
+        btn.disabled = true;
+        btn.textContent = "Envoi en cours...";
+
+        fetch(form.action, {
+            method: "POST",
+            body: new FormData(form),
+            headers: { "Accept": "application/json" }
+        })
+        .then(function(response) {
+            if (response.ok) {
+                document.getElementById("results").style.display = "none";
+                var thanksEl = document.getElementById("thanks-msg");
+                thanksEl.style.display = "block";
+                thanksEl.classList.add("active");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            } else {
+                throw new Error("Erreur serveur");
+            }
+        })
+        .catch(function() {
+            errorEl.classList.add("visible");
+            btn.disabled = false;
+            btn.textContent = "Réessayer →";
         });
-    }, 150);
+    }
 
-    document.getElementById('form-total').value = `${total}/${maxTotal} (${pct}%)`;
-    document.getElementById('form-details').value = JSON.stringify(
-        Object.fromEntries(Object.entries(pils).map(([k, v]) => [pillarMeta[k].name, `${v}/${pillarMeta[k].max}`]))
-    );
-}
-
-document.getElementById('diag-form').onsubmit = async (e) => {
-    e.preventDefault();
-    const data = new FormData(e.target);
-    await fetch(e.target.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } });
-    document.getElementById('results').style.display = 'none';
-    document.getElementById('thanks-msg').style.display = 'block';
-};
-
-init();
+    init();
+})();
 </script>
+
 </body>
 </html>
