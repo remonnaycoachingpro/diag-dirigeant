@@ -3,112 +3,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diagnostic Flash Dirigeant</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    <title>Diag Performance 2026 — Pilotage Dirigeant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #0f172a; --card: #1e293b; --accent: #3b82f6; --text: #f1f5f9; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; display: flex; justify-content: center; }
-        .container { max-width: 500px; width: 100%; }
-        .card { background: var(--card); padding: 25px; border-radius: 16px; border: 1px solid #334155; margin-bottom: 20px; }
-        .q-card { display: none; }
-        .q-card.active { display: block; animation: fadeIn 0.3s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .opt { background: #0f172a; padding: 15px; border: 2px solid #334155; border-radius: 12px; margin-top: 10px; cursor: pointer; transition: 0.2s; }
+        :root {
+            --bg: #0f172a; --card: #1e293b; --border: #334155;
+            --accent: #3b82f6; --success: #22c55e; --text: #f1f5f9;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        
+        /* Header */
+        .header { text-align: center; padding: 40px 0; }
+        .badge { display: inline-block; background: rgba(59,130,246,0.1); border: 1px solid var(--accent); color: #60a5fa; padding: 5px 15px; border-radius: 50px; font-size: 11px; font-weight: 800; margin-bottom: 15px; }
+        
+        /* Progress */
+        .prog-wrap { background: var(--card); padding: 15px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 25px; }
+        .prog-bar { height: 6px; background: #334155; border-radius: 10px; margin-top: 8px; overflow: hidden; }
+        .prog-fill { height: 100%; background: var(--accent); width: 0%; transition: 0.3s; }
+
+        /* Quiz Cards */
+        .q-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 30px; display: none; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        .q-card.active { display: block; animation: slideUp 0.4s ease-out; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .pillar-label { font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--accent); letter-spacing: 1px; }
+        h2 { font-size: 20px; margin: 15px 0 25px; font-weight: 700; }
+
+        .options { display: grid; gap: 10px; }
+        .opt { background: var(--bg); border: 1px solid var(--border); padding: 14px; border-radius: 12px; cursor: pointer; transition: 0.2s; font-size: 14px; }
         .opt:hover { border-color: var(--accent); }
-        .opt.selected { border-color: var(--accent); background: rgba(59,130,246,0.1); }
-        .btn { width: 100%; padding: 15px; border-radius: 10px; border: none; font-weight: 700; margin-top: 20px; cursor: pointer; background: var(--accent); color: white; }
-        .btn:disabled { opacity: 0.3; }
-        .pillar { font-size: 10px; text-transform: uppercase; color: var(--accent); font-weight: 800; }
-        input, textarea { width: 100%; padding: 12px; margin-top: 10px; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: white; box-sizing: border-box; }
-        #results { display: none; }
+        .opt.selected { background: rgba(59,130,246,0.15); border-color: var(--accent); }
+
+        .btn { width: 100%; padding: 16px; border-radius: 12px; border: none; font-weight: 700; cursor: pointer; margin-top: 20px; font-family: inherit; }
+        .btn-next { background: var(--accent); color: white; }
+        .btn-next:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        /* Results */
+        #results, #thanks-msg { display: none; }
+        .score-circle { width: 100px; height: 100px; border-radius: 50%; border: 4px solid var(--accent); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 32px; font-weight: 800; }
+        
+        .pillar-row { display: flex; align-items: center; margin-bottom: 12px; font-size: 13px; }
+        .p-name { width: 120px; }
+        .p-bar { flex: 1; height: 6px; background: #334155; border-radius: 10px; margin: 0 15px; overflow: hidden; }
+        .p-fill { height: 100%; background: var(--accent); }
+
+        input, textarea { width: 100%; padding: 14px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; color: white; margin-bottom: 15px; font-family: inherit; }
+        .linkedin-btn { background: #0077b5; color: white; text-decoration: none; display: inline-block; padding: 12px 20px; border-radius: 8px; font-weight: 700; margin-top: 15px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div id="quiz">
-        </div>
+    <div class="header">
+        <div class="badge">Analyse Performance 2026</div>
+        <h1>Diag Flash Dirigeant</h1>
+    </div>
 
-    <div id="results">
-        <div class="card" style="text-align: center;">
-            <h2>Votre Score : <span id="final-score">0</span>/30</h2>
-            <p id="feedback"></p>
+    <div id="prog-area" class="prog-wrap">
+        <div style="display: flex; justify-content: space-between; font-size: 12px;">
+            <span>Avancement</span>
+            <span id="prog-txt">1 / 11</span>
         </div>
+        <div class="prog-bar"><div id="prog-fill" class="prog-fill"></div></div>
+    </div>
+
+    <div id="quiz-container"></div>
+
+    <div id="results" class="q-card" style="display:none;">
+        <div class="score-circle" id="final-score-val">0</div>
+        <h3 style="text-align:center; margin-bottom:20px;">Analyse de vos Piliers</h3>
+        <div id="pillar-details"></div>
         
-        <div class="card">
-            <h3>Recevoir mon analyse complète</h3>
-            <form action="https://formspree.io/f/mgorvroz" method="POST">
-                <input type="hidden" name="score" id="hidden-score">
-                <input type="text" name="nom" placeholder="Nom et Prénom" required>
-                <input type="email" name="email" placeholder="Email pro" required>
-                <input type="tel" name="tel" placeholder="Téléphone" required>
-                <textarea name="message" placeholder="Votre principal défi actuel..."></textarea>
-                <button type="submit" class="btn" style="background: #22c55e;">Envoyer à Matthieu →</button>
-            </form>
-        </div>
+        <form id="diag-form" action="https://formspree.io/f/mgorvroz" method="POST" style="margin-top:30px;">
+            <input type="hidden" name="Score Total" id="form-total">
+            <input type="hidden" name="Details" id="form-details">
+            <input type="text" name="Nom" placeholder="Nom complet" required>
+            <input type="email" name="Email" placeholder="Email professionnel" required>
+            <input type="tel" name="Tel" placeholder="Téléphone" required>
+            <textarea name="Besoin" placeholder="Votre plus gros défi actuel ?" rows="3"></textarea>
+            <button type="submit" class="btn btn-next" style="background:var(--success)">Obtenir ma synthèse complète →</button>
+        </form>
+    </div>
+
+    <div id="thanks-msg" class="q-card" style="text-align:center;">
+        <h2 style="color:var(--success)">Diagnostic Envoyé !</h2>
+        <p>Merci, nous avons bien reçu votre diagnostic. Votre synthèse complète et personnalisée vous sera envoyée sous 24h.</p>
+        <p style="margin-top:20px; font-size:14px; color:#94a3b8;">En attendant, découvrez mes conseils quotidiens :</p>
+        <a href="https://www.linkedin.com/in/matthieu-remonnay/" target="_blank" class="linkedin-btn">Suivre sur LinkedIn</a>
     </div>
 </div>
 
 <script>
     const questions = [
-        { p: "Finance", q: "Connaissez-vous votre seuil de rentabilité mensuel ?", k: "fin" },
-        { p: "Finance", q: "Disposez-vous d'un prévisionnel de trésorerie à 6 mois ?", k: "fin" },
-        { p: "Commerce", q: "Avez-vous un flux régulier de prospects qualifiés ?", k: "com" },
-        { p: "Commerce", q: "Suivez-vous votre taux de conversion ?", k: "com" },
-        { p: "Management", q: "Votre équipe est-elle autonome si vous partez ?", k: "man" },
-        { p: "Management", q: "Déléguez-vous sans tout recontrôler ?", k: "man" },
-        { p: "Organisation", q: "Vos process clés sont-ils écrits ?", k: "org" },
-        { p: "Organisation", q: "Subissez-vous les urgences au quotidien ?", k: "org" },
-        { p: "Stratégie", q: "Avez-vous une vision chiffrée à 12 mois ?", k: "str" },
-        { p: "Stratégie", q: "Vous sentez-vous seul face aux décisions ?", k: "str" }
+        { p: "Global", q: "De manière générale, avez-vous le sentiment que votre entreprise est solide aujourd'hui ?", k: "glo" },
+        { p: "Finance", q: "Maîtrisez-vous votre seuil de rentabilité mensuel ?", k: "fin" },
+        { p: "Finance", q: "Disposez-vous d'un prévisionnel de trésorerie à 6 mois fiable ?", k: "fin" },
+        { p: "Finance", q: "Votre processus de facturation et recouvrement est-il automatisé / fluide ?", k: "fin" },
+        { p: "Commerce", q: "Avez-vous un flux régulier de nouveaux prospects qualifiés ?", k: "com" },
+        { p: "Commerce", q: "Le suivi de votre taux de conversion est-il opérationnel ?", k: "com" },
+        { p: "Management", q: "Votre équipe est-elle totalement autonome en votre absence ?", k: "man" },
+        { p: "Management", q: "Arrivez-vous à déléguer sans devoir tout re-vérifier ?", k: "man" },
+        { p: "Gestion des Process", q: "Vos process clés sont-ils écrits et partagés ?", k: "org" },
+        { p: "Gestion des Process", q: "Subissez-vous encore les urgences au quotidien ?", k: "org" },
+        { p: "Stratégie", q: "Avez-vous une vision claire et chiffrée à 12 mois ?", k: "str" }
     ];
 
     let current = 0;
     let scores = {};
 
-    function render() {
-        const quiz = document.getElementById('quiz');
-        quiz.innerHTML = `
-            <div class="card q-card active">
-                <span class="pillar">${questions[current].p}</span>
-                <h2 style="margin: 10px 0;">${questions[current].q}</h2>
-                <div class="opt" onclick="select(3)">C'est totalement maîtrisé</div>
-                <div class="opt" onclick="select(2)">C'est en cours / moyen</div>
-                <div class="opt" onclick="select(1)">Pas du tout maîtrisé</div>
-                <button class="btn" id="next-btn" disabled onclick="next()">Question Suivante →</button>
-            </div>
-        `;
-    }
-
-    window.select = (val) => {
-        scores[current] = val;
-        document.querySelectorAll('.opt').forEach((o, i) => {
-            o.classList.toggle('selected', (3-i) === val);
+    function init() {
+        const container = document.getElementById('quiz-container');
+        questions.forEach((q, i) => {
+            const div = document.createElement('div');
+            div.className = `q-card ${i===0?'active':''}`;
+            div.id = `qc-${i}`;
+            div.innerHTML = `
+                <span class="pillar-label">${q.p}</span>
+                <h2>${q.q}</h2>
+                <div class="options">
+                    ${[5,4,3,2,1].map(v => `
+                        <div class="opt" onclick="setScore(${i}, ${v}, '${q.k}')">
+                            ${v === 5 ? 'Excellent / Entièrement d\'accord' : v === 1 ? 'Insuffisant / Pas du tout' : 'Niveau ' + v}
+                        </div>
+                    `).join('')}
+                </div>
+                <button class="btn btn-next" id="bn-${i}" disabled onclick="step(1)">Question Suivante →</button>
+            `;
+            container.appendChild(div);
         });
-        document.getElementById('next-btn').disabled = false;
     }
 
-    window.next = () => {
-        if (current < questions.length - 1) {
-            current++;
-            render();
-        } else {
-            showResults();
-        }
+    window.setScore = (idx, val, key) => {
+        scores[idx] = {v: val, k: key};
+        document.querySelectorAll(`#qc-${idx} .opt`).forEach((o, i) => {
+            o.classList.toggle('selected', i === (5 - val));
+        });
+        document.getElementById(`bn-${idx}`).disabled = false;
+    };
+
+    window.step = (dir) => {
+        if (current === questions.length - 1) return showResults();
+        document.getElementById(`qc-${current}`).classList.remove('active');
+        current += dir;
+        document.getElementById(`qc-${current}`).classList.add('active');
+        updateProg();
+    };
+
+    function updateProg() {
+        const pct = ((current + 1) / questions.length) * 100;
+        document.getElementById('prog-fill').style.width = pct + '%';
+        document.getElementById('prog-txt').innerText = `${current + 1} / ${questions.length}`;
     }
 
     function showResults() {
-        document.getElementById('quiz').style.display = 'none';
-        const total = Object.values(scores).reduce((a, b) => a + b, 0);
+        document.getElementById('quiz-container').style.display = 'none';
+        document.getElementById('prog-area').style.display = 'none';
         document.getElementById('results').style.display = 'block';
-        document.getElementById('final-score').innerText = total;
-        document.getElementById('hidden-score').value = total + "/30";
         
-        let msg = total > 22 ? "Solide ! Quelques réglages suffisent." : (total > 15 ? "Attention, des piliers sont fragiles." : "Urgence : votre structure est à risque.");
-        document.getElementById('feedback').innerText = msg;
+        let total = 0;
+        let pils = { glo:0, fin:0, com:0, man:0, org:0, str:0 };
+        let counts = { glo:1, fin:3, com:2, man:2, org:2, str:1 };
+
+        Object.values(scores).forEach(s => {
+            total += s.v;
+            pils[s.k] += s.v;
+        });
+
+        document.getElementById('final-score-val').innerText = total;
+        
+        const pilNames = { glo:"Global", fin:"Finance", com:"Commerce", man:"Management", org:"Process", str:"Stratégie" };
+        let html = "";
+        for (let k in pils) {
+            let maxP = counts[k] * 5;
+            let pct = (pils[k] / maxP) * 100;
+            html += `
+                <div class="pillar-row">
+                    <span class="p-name">${pilNames[k]}</span>
+                    <div class="p-bar"><div class="p-fill" style="width:${pct}%"></div></div>
+                    <span>${pils[k]}/${maxP}</span>
+                </div>`;
+        }
+        document.getElementById('pillar-details').innerHTML = html;
+        document.getElementById('form-total').value = total + "/55";
+        document.getElementById('form-details').value = JSON.stringify(pils);
     }
 
-    render();
+    // Gestion de l'envoi Formspree sans recharger la page
+    document.getElementById('diag-form').onsubmit = async (e) => {
+        e.preventDefault();
+        const f = e.target;
+        const data = new FormData(f);
+        await fetch(f.action, { method: 'POST', body: data, headers: {'Accept': 'application/json'} });
+        document.getElementById('results').style.display = 'none';
+        document.getElementById('thanks-msg').style.display = 'block';
+    };
+
+    init();
 </script>
+
 </body>
 </html>
